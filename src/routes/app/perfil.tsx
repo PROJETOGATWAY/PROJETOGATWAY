@@ -1,10 +1,1 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-export const Route = createFileRoute("/app/perfil")({
-  component: () => (
-    <div>
-      <h1>Perfil</h1>
-      <p>Dados da sua conta de vendedor.</p>
-    </div>
-  ),
-});
+import{createFileRoute}from"@tanstack/react-router";import{useState}from"react";import{KeyRound,Save}from"lucide-react";import{PageHeader}from"../../components/ui";import{useAuth}from"../../lib/auth";import{getSupabase}from"../../lib/supabase";export const Route=createFileRoute("/app/perfil")({component:Profile});function Profile(){const{profile}=useAuth();const[p1,setP1]=useState("");const[p2,setP2]=useState("");const[busy,setBusy]=useState(false);const[msg,setMsg]=useState("");const[err,setErr]=useState("");const change=async(e:React.FormEvent)=>{e.preventDefault();setMsg("");setErr("");if(p1.length<8||p1!==p2){setErr("Use pelo menos 8 caracteres e confirme a mesma senha.");return}setBusy(true);try{const{error}=await getSupabase().auth.updateUser({password:p1});if(error)throw error;setP1("");setP2("");setMsg("Senha alterada com segurança.")}catch(e){setErr(e instanceof Error?e.message:"Não foi possível alterar a senha.")}finally{setBusy(false)}};return <div><PageHeader eyebrow="CONTA" title="Perfil" description="Seus dados de acesso e segurança."/><div className="method-page-grid"><section className="panel"><h2>Dados da conta</h2><div className="detail-text"><span>Nome</span><strong>{profile?.full_name||"—"}</strong></div><div className="detail-text"><span>E-mail</span><strong>{profile?.email||"—"}</strong></div></section><section className="panel"><h2>Alterar senha</h2>{err&&<div className="form-error">{err}</div>}{msg&&<div className="notice success">{msg}</div>}<form className="payment-form" onSubmit={change}><label className="field-label">Nova senha<input type="password" value={p1} onChange={e=>setP1(e.target.value)} autoComplete="new-password" required/></label><label className="field-label">Confirmar senha<input type="password" value={p2} onChange={e=>setP2(e.target.value)} autoComplete="new-password" required/></label><button className="primary-button" disabled={busy}>{busy?<><KeyRound size={15}/>Alterando…</>:<><Save size={15}/>Alterar senha</>}</button></form></section></div></div>}
