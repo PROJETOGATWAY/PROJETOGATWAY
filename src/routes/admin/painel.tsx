@@ -41,7 +41,7 @@ function CounterDashboardPage(){
   if(loading)return <div className="loading-screen"><div className="spinner"/><span>Carregando painel…</span></div>;
 
   return <div>
-    <PageHeader title="Painel do Contador" subtitle="Resumo do que entrou na JaguaPay e da sua comissão."/>
+    <PageHeader eyebrow="CONTADOR" title="Painel do Contador" description="Resumo do que entrou na JaguaPay e da sua comissão."/>
     {error&&<div className="alert error">{error}</div>}
 
     <div className="stats-grid">
