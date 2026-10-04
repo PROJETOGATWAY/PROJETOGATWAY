@@ -1,9 +1,17 @@
 -- Etapa 1: identidade, perfis, administração e auditoria
 create extension if not exists pgcrypto;
 
-do $ begin create type public.user_role as enum ('seller','admin'); exception when duplicate_object then null; end $;
-do $ begin create type public.user_status as enum ('active','suspended'); exception when duplicate_object then null; end $;
-do $ begin create type public.admin_level as enum ('standard','superadmin'); exception when duplicate_object then null; end $;
+do $$
+begin
+  create type public.user_role as enum ('seller','admin');
+exception when duplicate_object then null;
+end $$;
+
+do $$
+begin
+  create type public.user_status as enum ('pending','active','suspended','rejected');
+exception when duplicate_object then null;
+end $$;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
