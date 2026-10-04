@@ -1,17 +1,17 @@
 -- Etapa 1: identidade, perfis, administração e auditoria
 create extension if not exists pgcrypto;
 
-do $ begin create type public.app_role as enum ('seller','admin'); exception when duplicate_object then null; end $;
-do $ begin create type public.account_status as enum ('active','suspended'); exception when duplicate_object then null; end $;
+do $ begin create type public.user_role as enum ('seller','admin'); exception when duplicate_object then null; end $;
+do $ begin create type public.user_status as enum ('active','suspended'); exception when duplicate_object then null; end $;
 do $ begin create type public.admin_level as enum ('standard','superadmin'); exception when duplicate_object then null; end $;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text not null default '',
   email text not null default '',
-  role public.app_role not null default 'seller',
-  status public.account_status not null default 'active',
-  admin_level public.admin_level not null default 'standard',
+  role public.user_role not null default 'seller',
+  status public.user_status not null default 'active',
+  admin_level text not null default 'standard',
   accepted_terms_at timestamptz,
   suspended_at timestamptz,
   suspension_reason text,
@@ -41,9 +41,9 @@ create table if not exists public.audit_logs (
 
 alter table public.profiles add column if not exists full_name text not null default '';
 alter table public.profiles add column if not exists email text not null default '';
-alter table public.profiles add column if not exists role public.app_role not null default 'seller';
-alter table public.profiles add column if not exists status public.account_status not null default 'active';
-alter table public.profiles add column if not exists admin_level public.admin_level not null default 'standard';
+alter table public.profiles add column if not exists role public.user_role not null default 'seller';
+alter table public.profiles add column if not exists status public.user_status not null default 'active';
+alter table public.profiles add column if not exists admin_level text not null default 'standard';
 alter table public.profiles add column if not exists accepted_terms_at timestamptz;
 alter table public.profiles add column if not exists suspended_at timestamptz;
 alter table public.profiles add column if not exists suspension_reason text;
