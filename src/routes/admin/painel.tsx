@@ -71,7 +71,7 @@ function CounterDashboardPage(){
     </div>
 
     <div className="panel">
-      <div className="panel-head"><div><h2>Clock3 sua comissão em detalhes</h2><p>Veja o histórico completo de comissões por venda.</p></div>
+      <div className="panel-head"><div><h2>Sua comissão em detalhes</h2><p>Veja o histórico completo de comissões por venda.</p></div>
       <Link to="/app/remuneracao" className="btn-secondary">Minha comissão <ArrowRight size={15}/></Link></div>
     </div>
   </div>
