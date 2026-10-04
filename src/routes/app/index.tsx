@@ -1,4 +1,4 @@
-import{createFileRoute,Link}from"@tanstack/react-router";import{useEffect,useState}from"react";import{Check,Copy,CreditCard,Landmark,Clock3,ShieldAlert,WalletCards,TrendingUp,Hourglass,Percent,RefreshCw}from"lucide-react";import{PageHeader}from"../../components/ui";import{copyText,formatEur,usePlatformSettings,useSellerDashboard,useSellerLedger,whatsappInstructions,getCounterOperationOverview,getMyCompensationSummary}from"../../lib/platform";import{useAuth}from"../../lib/auth";
+import{createFileRoute,Link}from"@tanstack/react-router";import{useEffect,useState}from"react";import{Check,Copy,CreditCard,Landmark,Clock3,ShieldAlert,WalletCards,TrendingUp,Hourglass,Percent,RefreshCw}from"lucide-react";import{PageHeader}from"../../components/ui";import{copyText,formatEur,usePlatformSettings,useSellerDashboard,useSellerLedger,whatsappInstructions,getCounterOperationOverview,getMyCompensationSummary}from"../../lib/platform";import{useAuth}from"../../lib/auth";import{getSupabase}from"../../lib/supabase";
 
 export const Route=createFileRoute("/app/")({component:Overview});
 
