@@ -62,7 +62,7 @@ export async function savePlatformSettings(input:Omit<PlatformSettings,"id"|"ini
   return data as PlatformSettings;
 }
 
-export function useSellerDashboard(){
+export function useSellerDashboard(periodDays?:number){
   const[data,setData]=useState<SellerDashboard>(EMPTY_DASHBOARD);
   const[loading,setLoading]=useState(true);
   const[error,setError]=useState<string|null>(null);
@@ -70,7 +70,7 @@ export function useSellerDashboard(){
     const supabase=getSupabase();
     let mounted=true;
     const load=async()=>{
-      const{data,error}=await supabase.rpc("get_seller_dashboard");
+      const start=periodDays?new Date(Date.now()-periodDays*86400000).toISOString():null;const end=new Date().toISOString();const{data,error}=await supabase.rpc("get_seller_dashboard",{p_start:start,p_end:periodDays?end:null});
       if(!mounted)return;
       if(error){setError("Não foi possível carregar o resumo financeiro.");setLoading(false);return}
       const row=Array.isArray(data)?data[0]:data;
@@ -89,7 +89,7 @@ export function useSellerDashboard(){
       .on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>{void load()})
       .subscribe((status)=>{if(status==="SUBSCRIBED")void load()});
     return()=>{mounted=false;void supabase.removeChannel(channel)};
-  },[]);
+  },[periodDays]);
   return{data,loading,error};
 }
 
