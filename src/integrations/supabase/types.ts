@@ -63,9 +63,9 @@ export type Database = {
         Relationships: []
       },
       payment_records: {
-        Row: { id: string; seller_id: string; gross_amount_eur: number; fee_percent_snapshot: number; fee_amount_eur: number; net_amount_eur: number; status: string; reference: string | null; submitted_at: string; approved_at: string | null; created_at: string; updated_at: string }
-        Insert: { id?: string; seller_id: string; gross_amount_eur: number; fee_percent_snapshot: number; fee_amount_eur: number; net_amount_eur: number; status?: string; reference?: string | null; submitted_at?: string; approved_at?: string | null; created_at?: string; updated_at?: string }
-        Update: { id?: string; seller_id?: string; gross_amount_eur?: number; fee_percent_snapshot?: number; fee_amount_eur?: number; net_amount_eur?: number; status?: string; reference?: string | null; submitted_at?: string; approved_at?: string | null; created_at?: string; updated_at?: string }
+        Row: { id:string;seller_id:string;payment_code:string;gross_amount_eur:number;currency:string;payment_method:string;fee_percent_snapshot:number;fee_amount_eur:number;net_amount_eur:number;status:string;reference:string|null;order_id:string|null;notes:string|null;mbway_phone_snapshot:string|null;central_iban_snapshot:string|null;proof_path:string|null;proof_mime_type:string|null;proof_size_bytes:number|null;admin_notes:string|null;decision_reason:string|null;decided_by:string|null;receipt_id:string|null;risk_reason:string|null;idempotency_key:string|null;submitted_at:string;approved_at:string|null;created_at:string;updated_at:string }
+        Insert: { id?:string;seller_id:string;payment_code?:string;gross_amount_eur:number;currency?:string;payment_method?:string;fee_percent_snapshot:number;fee_amount_eur:number;net_amount_eur:number;status?:string;reference?:string|null;order_id?:string|null;notes?:string|null;mbway_phone_snapshot?:string|null;central_iban_snapshot?:string|null;proof_path?:string|null;proof_mime_type?:string|null;proof_size_bytes?:number|null;admin_notes?:string|null;decision_reason?:string|null;decided_by?:string|null;receipt_id?:string|null;risk_reason?:string|null;idempotency_key?:string|null;submitted_at?:string;approved_at?:string|null;created_at?:string;updated_at?:string }
+        Update: { id?:string;seller_id?:string;payment_code?:string;gross_amount_eur?:number;currency?:string;payment_method?:string;fee_percent_snapshot?:number;fee_amount_eur?:number;net_amount_eur?:number;status?:string;reference?:string|null;order_id?:string|null;notes?:string|null;mbway_phone_snapshot?:string|null;central_iban_snapshot?:string|null;proof_path?:string|null;proof_mime_type?:string|null;proof_size_bytes?:number|null;admin_notes?:string|null;decision_reason?:string|null;decided_by?:string|null;receipt_id?:string|null;risk_reason?:string|null;idempotency_key?:string|null;submitted_at?:string;approved_at?:string|null;created_at?:string;updated_at?:string }
         Relationships: []
       },
       withdrawals: {
@@ -75,6 +75,24 @@ export type Database = {
         Relationships: []
       }
     }
+      central_receipts: {
+        Row:{id:string;receipt_reference:string;received_at:string;amount_eur:number;payment_method:string;observation:string|null;seller_id:string|null;payment_id:string|null;created_by:string;created_at:string}
+        Insert:{id?:string;receipt_reference:string;received_at?:string;amount_eur:number;payment_method:string;observation?:string|null;seller_id?:string|null;payment_id?:string|null;created_by:string;created_at?:string}
+        Update:{id?:string;receipt_reference?:string;received_at?:string;amount_eur?:number;payment_method?:string;observation?:string|null;seller_id?:string|null;payment_id?:string|null;created_by?:string;created_at?:string}
+        Relationships:[]
+      },
+      payment_financial_ledger: {
+        Row:{id:string;seller_id:string;payment_id:string|null;withdrawal_id:string|null;entry_type:string;amount_eur:number;reason:string;created_by:string;created_at:string}
+        Insert:{id?:string;seller_id:string;payment_id?:string|null;withdrawal_id?:string|null;entry_type:string;amount_eur:number;reason:string;created_by:string;created_at?:string}
+        Update:{id?:string;seller_id?:string;payment_id?:string|null;withdrawal_id?:string|null;entry_type?:string;amount_eur?:number;reason?:string;created_by?:string;created_at?:string}
+        Relationships:[]
+      },
+      payment_admin_notes: {
+        Row:{id:string;payment_id:string;admin_id:string;note:string;created_at:string}
+        Insert:{id?:string;payment_id:string;admin_id:string;note:string;created_at?:string}
+        Update:{id?:string;payment_id?:string;admin_id?:string;note?:string;created_at?:string}
+        Relationships:[]
+      },
     Views: {
       [_ in never]: never
     }
@@ -82,6 +100,14 @@ export type Database = {
       save_platform_settings: { Args: { p_mbway_phone: string | null; p_central_iban: string | null; p_platform_fee_percent: number; p_minimum_withdrawal_eur: number; p_withdrawal_fixed_fee_eur: number; p_withdrawals_paused: boolean }; Returns: Database["public"]["Tables"]["platform_settings"]["Row"] }
       submit_payment: { Args: { p_gross_amount_eur: number; p_reference?: string | null }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
       request_withdrawal: { Args: { p_amount_eur: number }; Returns: Database["public"]["Tables"]["withdrawals"]["Row"] }
+      create_payment_submission: { Args: { p_gross_amount_eur:number;p_payment_method:string;p_reference:string|null;p_order_id:string|null;p_notes:string|null;p_idempotency_key:string }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
+      finalize_payment_submission: { Args: { p_payment_id:string;p_proof_path:string;p_proof_mime_type:string;p_proof_size_bytes:number }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
+      cleanup_failed_payment_submission: { Args: { p_payment_id:string }; Returns: boolean }
+      admin_add_payment_note: { Args: { p_payment_id:string;p_note:string }; Returns: Database["public"]["Tables"]["payment_admin_notes"]["Row"] }
+      admin_reject_payment: { Args: { p_payment_id:string;p_reason:string }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
+      admin_escalate_payment: { Args: { p_payment_id:string;p_reason:string }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
+      admin_approve_payment: { Args: { p_payment_id:string;p_receipt_id:string|null;p_new_receipt_reference:string|null;p_new_receipt_at:string|null;p_new_receipt_amount_eur:number|null;p_new_receipt_method:string|null;p_new_receipt_observation:string|null }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
+      admin_reverse_payment: { Args: { p_payment_id:string;p_reason:string }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
       get_seller_dashboard: { Args: {}; Returns: { available_balance_eur: number; pending_balance_eur: number; approved_volume_eur: number; at_risk_eur: number; reserved_withdrawals_eur: number }[] }
       update_my_profile: { Args: { p_full_name: string }; Returns: Database["public"]["Tables"]["profiles"]["Row"] }
       suspend_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
