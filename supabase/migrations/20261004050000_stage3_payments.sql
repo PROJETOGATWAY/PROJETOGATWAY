@@ -335,7 +335,7 @@ $$;
 revoke all on function public.admin_reverse_payment(uuid,text) from public;
 grant execute on function public.admin_reverse_payment(uuid,text) to authenticated;
 
-create or replace function public.get_seller_dashboard()
+create or replace function public.get_seller_dashboard(p_start timestamptz default null,p_end timestamptz default null)
 returns table(available_balance_eur numeric,pending_balance_eur numeric,approved_volume_eur numeric,at_risk_eur numeric,reserved_withdrawals_eur numeric)
 language sql security invoker set search_path=''
 as $$
@@ -343,13 +343,13 @@ select
  coalesce((select sum(l.amount_eur) from public.payment_financial_ledger l where l.seller_id=auth.uid()),0)
  - coalesce((select sum(w.amount_eur+w.fixed_fee_snapshot_eur) from public.withdrawals w where w.seller_id=auth.uid() and w.status in ('requested','approved')),0),
  coalesce((select sum(p.gross_amount_eur) from public.payment_records p where p.seller_id=auth.uid() and p.status='pending'),0),
- coalesce((select sum(p.gross_amount_eur) from public.payment_records p where p.seller_id=auth.uid() and p.status='approved' and p.created_at>=date_trunc('month',now())),0)
- - coalesce((select sum(p.gross_amount_eur) from public.payment_records p where p.seller_id=auth.uid() and p.status='estornado' and p.created_at>=date_trunc('month',now())),0),
+ coalesce((select sum(p.gross_amount_eur) from public.payment_records p where p.seller_id=auth.uid() and p.status='approved' and (p_start is null or p.created_at>=p_start) and (p_end is null or p.created_at<p_end)),0)
+ + coalesce((select sum(p.gross_amount_eur) from public.payment_records p where p.seller_id=auth.uid() and p.status='estornado' and (p_start is null or p.created_at>=p_start) and (p_end is null or p.created_at<p_end)),0),
  coalesce((select sum(p.gross_amount_eur) from public.payment_records p where p.seller_id=auth.uid() and p.status='under_review'),0),
  coalesce((select sum(w.amount_eur+w.fixed_fee_snapshot_eur) from public.withdrawals w where w.seller_id=auth.uid() and w.status in ('requested','approved')),0);
 $$;
-revoke all on function public.get_seller_dashboard() from public;
-grant execute on function public.get_seller_dashboard() to authenticated;
+revoke all on function public.get_seller_dashboard(timestamptz,timestamptz) from public;
+grant execute on function public.get_seller_dashboard(timestamptz,timestamptz) to authenticated;
 
 do $$ begin
  if exists(select 1 from pg_publication where pubname='supabase_realtime') then
