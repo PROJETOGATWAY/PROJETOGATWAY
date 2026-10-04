@@ -20,8 +20,10 @@ export type Database = {
           created_at: string
           email: string
           expires_at: string
+          full_name: string | null
           id: string
           invited_by: string
+          role: string
           status: string
         }
         Insert: {
@@ -29,8 +31,10 @@ export type Database = {
           created_at?: string
           email: string
           expires_at?: string
+          full_name?: string | null
           id?: string
           invited_by: string
+          role?: string
           status?: string
         }
         Update: {
@@ -38,8 +42,10 @@ export type Database = {
           created_at?: string
           email?: string
           expires_at?: string
+          full_name?: string | null
           id?: string
           invited_by?: string
+          role?: string
           status?: string
         }
         Relationships: [
@@ -149,6 +155,276 @@ export type Database = {
           {
             foreignKeyName: "central_receipts_seller_id_fkey"
             columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compensation_adjustments: {
+        Row: {
+          amount_eur: number
+          beneficiary_id: string
+          compensation_entry_id: string
+          created_at: string
+          created_by: string
+          id: string
+          payment_id: string
+          reason: string
+        }
+        Insert: {
+          amount_eur: number
+          beneficiary_id: string
+          compensation_entry_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          payment_id: string
+          reason: string
+        }
+        Update: {
+          amount_eur?: number
+          beneficiary_id?: string
+          compensation_entry_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          payment_id?: string
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compensation_adjustments_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_adjustments_compensation_entry_id_fkey"
+            columns: ["compensation_entry_id"]
+            isOneToOne: false
+            referencedRelation: "compensation_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_adjustments_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_adjustments_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payment_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compensation_entries: {
+        Row: {
+          amount_eur: number
+          applied_percent: number
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          gross_amount_eur: number
+          id: string
+          payment_id: string
+          rule_id: string
+        }
+        Insert: {
+          amount_eur: number
+          applied_percent: number
+          beneficiary_id: string
+          configured_percent: number
+          created_at?: string
+          gross_amount_eur: number
+          id?: string
+          payment_id: string
+          rule_id: string
+        }
+        Update: {
+          amount_eur?: number
+          applied_percent?: number
+          beneficiary_id?: string
+          configured_percent?: number
+          created_at?: string
+          gross_amount_eur?: number
+          id?: string
+          payment_id?: string
+          rule_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compensation_entries_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_entries_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: true
+            referencedRelation: "payment_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_entries_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "compensation_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compensation_rules: {
+        Row: {
+          activated_at: string | null
+          active: boolean
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          created_by: string
+          deactivated_at: string | null
+          id: string
+          platform_fee_percent_at_activation: number
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          activated_at?: string | null
+          active?: boolean
+          beneficiary_id: string
+          configured_percent: number
+          created_at?: string
+          created_by: string
+          deactivated_at?: string | null
+          id?: string
+          platform_fee_percent_at_activation: number
+          updated_at?: string
+          version: number
+        }
+        Update: {
+          activated_at?: string | null
+          active?: boolean
+          beneficiary_id?: string
+          configured_percent?: number
+          created_at?: string
+          created_by?: string
+          deactivated_at?: string | null
+          id?: string
+          platform_fee_percent_at_activation?: number
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compensation_rules_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_rules_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compensation_settlement_allocations: {
+        Row: {
+          amount_eur: number
+          compensation_entry_id: string
+          created_at: string
+          id: string
+          settlement_id: string
+        }
+        Insert: {
+          amount_eur: number
+          compensation_entry_id: string
+          created_at?: string
+          id?: string
+          settlement_id: string
+        }
+        Update: {
+          amount_eur?: number
+          compensation_entry_id?: string
+          created_at?: string
+          id?: string
+          settlement_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compensation_settlement_allocations_compensation_entry_id_fkey"
+            columns: ["compensation_entry_id"]
+            isOneToOne: false
+            referencedRelation: "compensation_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_settlement_allocations_settlement_id_fkey"
+            columns: ["settlement_id"]
+            isOneToOne: false
+            referencedRelation: "compensation_settlements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compensation_settlements: {
+        Row: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at: string
+          created_by: string
+          id: string
+          observation: string | null
+          proof_path: string | null
+          reference: string | null
+          settlement_date: string
+          settlement_method: string
+        }
+        Insert: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          observation?: string | null
+          proof_path?: string | null
+          reference?: string | null
+          settlement_date: string
+          settlement_method: string
+        }
+        Update: {
+          amount_eur?: number
+          beneficiary_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          observation?: string | null
+          proof_path?: string | null
+          reference?: string | null
+          settlement_date?: string
+          settlement_method?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compensation_settlements_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compensation_settlements_created_by_fkey"
+            columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -311,6 +587,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -341,6 +621,10 @@ export type Database = {
           admin_notes?: string | null
           approved_at?: string | null
           central_iban_snapshot?: string | null
+          compensation_beneficiary_id?: string | null
+          compensation_percent_applied?: number | null
+          compensation_percent_configured?: number | null
+          compensation_rule_id?: string | null
           created_at?: string
           currency?: string
           decided_by?: string | null
@@ -371,6 +655,10 @@ export type Database = {
           admin_notes?: string | null
           approved_at?: string | null
           central_iban_snapshot?: string | null
+          compensation_beneficiary_id?: string | null
+          compensation_percent_applied?: number | null
+          compensation_percent_configured?: number | null
+          compensation_rule_id?: string | null
           created_at?: string
           currency?: string
           decided_by?: string | null
@@ -398,6 +686,20 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "payment_records_compensation_beneficiary_id_fkey"
+            columns: ["compensation_beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_records_compensation_rule_id_fkey"
+            columns: ["compensation_rule_id"]
+            isOneToOne: false
+            referencedRelation: "compensation_rules"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "payment_records_decided_by_fkey"
             columns: ["decided_by"]
@@ -465,6 +767,7 @@ export type Database = {
         Row: {
           accepted_terms_at: string | null
           admin_level: string
+          counter_previous_role: string | null
           created_at: string | null
           email: string
           full_name: string
@@ -478,6 +781,7 @@ export type Database = {
         Insert: {
           accepted_terms_at?: string | null
           admin_level?: string
+          counter_previous_role?: string | null
           created_at?: string | null
           email?: string
           full_name?: string
@@ -491,6 +795,7 @@ export type Database = {
         Update: {
           accepted_terms_at?: string | null
           admin_level?: string
+          counter_previous_role?: string | null
           created_at?: string | null
           email?: string
           full_name?: string
@@ -798,6 +1103,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -864,6 +1173,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -962,6 +1275,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -1017,6 +1334,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -1131,6 +1452,35 @@ export type Database = {
         Args: { p_payment_id: string }
         Returns: boolean
       }
+      create_compensation_settlement: {
+        Args: {
+          p_amount_eur: number
+          p_beneficiary_id: string
+          p_observation: string
+          p_proof_path: string
+          p_reference: string
+          p_settlement_date: string
+          p_settlement_method: string
+        }
+        Returns: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at: string
+          created_by: string
+          id: string
+          observation: string | null
+          proof_path: string | null
+          reference: string | null
+          settlement_date: string
+          settlement_method: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "compensation_settlements"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       create_payment_submission: {
         Args: {
           p_gross_amount_eur: number
@@ -1144,6 +1494,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -1235,6 +1589,28 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      deactivate_counter_compensation: {
+        Args: { p_reason: string }
+        Returns: {
+          activated_at: string | null
+          active: boolean
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          created_by: string
+          deactivated_at: string | null
+          id: string
+          platform_fee_percent_at_activation: number
+          updated_at: string
+          version: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "compensation_rules"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       deactivate_withdrawal_method: {
         Args: { p_method_id: string }
         Returns: {
@@ -1286,6 +1662,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -1319,6 +1699,37 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      get_compensation_admin_summary: {
+        Args: never
+        Returns: {
+          beneficiary_id: string
+          pending_eur: number
+          total_accrued_eur: number
+          total_adjustments_eur: number
+          total_paid_eur: number
+        }[]
+      }
+      get_compensation_balances: {
+        Args: never
+        Returns: {
+          beneficiary_id: string
+          pending_eur: number
+          total_accrued_eur: number
+          total_adjustments_eur: number
+          total_paid_eur: number
+        }[]
+      }
+      get_my_compensation_summary: {
+        Args: never
+        Returns: {
+          active: boolean
+          configured_percent: number
+          pending_eur: number
+          total_accrued_eur: number
+          total_adjustments_eur: number
+          total_paid_eur: number
+        }[]
+      }
       get_seller_dashboard:
         | {
             Args: never
@@ -1340,7 +1751,34 @@ export type Database = {
               reserved_withdrawals_eur: number
             }[]
           }
+      grant_counter: {
+        Args: { p_reason: string; p_user_id: string }
+        Returns: {
+          accepted_terms_at: string | null
+          admin_level: string
+          counter_previous_role: string | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          status: Database["public"]["Enums"]["user_status"]
+          suspended_at: string | null
+          suspension_reason: string | null
+          updated_at: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "profiles"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       invite_admin_record: { Args: { p_email: string }; Returns: string }
+      invite_counter_record: {
+        Args: { p_email: string; p_full_name: string }
+        Returns: string
+      }
       is_admin: { Args: never; Returns: boolean }
       is_superadmin: { Args: never; Returns: boolean }
       mark_notification_read: {
@@ -1364,7 +1802,15 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      reactivate_counter: {
+        Args: { p_reason: string; p_user_id: string }
+        Returns: undefined
+      }
       reactivate_seller: {
+        Args: { p_reason: string; p_user_id: string }
+        Returns: undefined
+      }
+      remove_counter: {
         Args: { p_reason: string; p_user_id: string }
         Returns: undefined
       }
@@ -1413,6 +1859,37 @@ export type Database = {
       revoke_admin: {
         Args: { p_reason: string; p_user_id: string }
         Returns: undefined
+      }
+      revoke_counter_invitation: {
+        Args: { p_invitation_id: string; p_reason: string }
+        Returns: undefined
+      }
+      save_compensation_rule: {
+        Args: {
+          p_active: boolean
+          p_beneficiary_id: string
+          p_configured_percent: number
+          p_reason: string
+        }
+        Returns: {
+          activated_at: string | null
+          active: boolean
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          created_by: string
+          deactivated_at: string | null
+          id: string
+          platform_fee_percent_at_activation: number
+          updated_at: string
+          version: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "compensation_rules"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       save_platform_settings: {
         Args: {
@@ -1476,6 +1953,10 @@ export type Database = {
           admin_notes: string | null
           approved_at: string | null
           central_iban_snapshot: string | null
+          compensation_beneficiary_id: string | null
+          compensation_percent_applied: number | null
+          compensation_percent_configured: number | null
+          compensation_rule_id: string | null
           created_at: string
           currency: string
           decided_by: string | null
@@ -1509,6 +1990,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      suspend_counter: {
+        Args: { p_reason: string; p_user_id: string }
+        Returns: undefined
+      }
       suspend_seller: {
         Args: { p_reason: string; p_user_id: string }
         Returns: undefined
@@ -1518,6 +2003,7 @@ export type Database = {
         Returns: {
           accepted_terms_at: string | null
           admin_level: string
+          counter_previous_role: string | null
           created_at: string | null
           email: string
           full_name: string
