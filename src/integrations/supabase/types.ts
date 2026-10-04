@@ -55,10 +55,7 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
-      }
-    }
-    Tables: {
-      ...Database["public"]["Tables"],
+      },
       platform_settings: {
         Row: { id: number; mbway_phone: string | null; central_iban: string | null; platform_fee_percent: number; minimum_withdrawal_eur: number; withdrawal_fixed_fee_eur: number; withdrawals_paused: boolean; initialized_at: string | null; updated_at: string; updated_by: string | null }
         Insert: { id?: number; mbway_phone?: string | null; central_iban?: string | null; platform_fee_percent?: number; minimum_withdrawal_eur?: number; withdrawal_fixed_fee_eur?: number; withdrawals_paused?: boolean; initialized_at?: string | null; updated_at?: string; updated_by?: string | null }
