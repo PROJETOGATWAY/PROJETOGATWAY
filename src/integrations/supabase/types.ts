@@ -1755,6 +1755,12 @@ export type Database = {
           total_paid_eur: number
         }[]
       }
+      get_counter_operation_overview: {
+        Args: never
+        Returns: {
+          approved_gross_eur: number
+        }[]
+      }
       get_my_compensation_summary: {
         Args: never
         Returns: {

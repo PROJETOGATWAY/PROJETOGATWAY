@@ -22,4 +22,5 @@ function Overview(){
 
 function ReceiveCard({icon,title,value,copied,onCopy}:{icon:React.ReactNode;title:string;value:string|null;copied:boolean;onCopy:()=>void}){return <div className="method-card"><div className="method-top"><div className="method-icon">{icon}</div><div><strong>{title}</strong><small>CENTRAL JAGUAPAY</small></div></div><div className="method-value"><b>{value||"Não configurado"}</b>{value&&<button className="icon-button" onClick={onCopy} aria-label={"Copiar "+title}>{copied?<Check size={15}/>:<Copy size={15}/>}</button>}</div></div>}
 
-function Stat({icon,label,value}:{icon:React.ReactNode;label:string;value:string}){return <div className="stat-card"><span>{label}</span><div>{icon}</div><strong>{value}</strong></div>}\nfunction OverviewStat({label,value,helper}:{label:string;value:string;helper:string}){return <div className="stat-card counter-overview-card"><span>{label}</span><strong>{value}</strong><small>{helper}</small></div>}
+function Stat({icon,label,value}:{icon:React.ReactNode;label:string;value:string}){return <div className="stat-card"><span>{label}</span><div>{icon}</div><strong>{value}</strong></div>}
+function OverviewStat({label,value,helper}:{label:string;value:string;helper:string}){return <div className="stat-card counter-overview-card"><span>{label}</span><strong>{value}</strong><small>{helper}</small></div>}
