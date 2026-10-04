@@ -128,14 +128,14 @@ const AppPagamentosRoute = AppPagamentosRouteImport.update({
   path: '/pagamentos',
   getParentRoute: () => AppRoute,
 } as any)
-const AppRemuneracaoRoute = AppRemuneracaoRouteImport.update({
-  id: '/remuneracao',
-  path: '/remuneracao',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppPerfilRoute = AppPerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRemuneracaoRoute = AppRemuneracaoRouteImport.update({
+  id: '/remuneracao',
+  path: '/remuneracao',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSaquesRoute = AppSaquesRouteImport.update({
@@ -167,7 +167,7 @@ export interface FileRoutesByFullPath {
   '/admin/vendedores': typeof AdminVendedoresRoute
   '/app/metodos': typeof AppMetodosRoute
   '/app/pagamentos': typeof AppPagamentosRoute
-  '/app/perfil': typeof AppPerfilRoute,
+  '/app/perfil': typeof AppPerfilRoute
   '/app/remuneracao': typeof AppRemuneracaoRoute
   '/app/saques': typeof AppSaquesRoute
   '/app/suporte': typeof AppSuporteRoute
@@ -191,6 +191,7 @@ export interface FileRoutesByTo {
   '/app/metodos': typeof AppMetodosRoute
   '/app/pagamentos': typeof AppPagamentosRoute
   '/app/perfil': typeof AppPerfilRoute
+  '/app/remuneracao': typeof AppRemuneracaoRoute
   '/app/saques': typeof AppSaquesRoute
   '/app/suporte': typeof AppSuporteRoute
   '/admin': typeof AdminIndexRoute
@@ -216,6 +217,7 @@ export interface FileRoutesById {
   '/app/metodos': typeof AppMetodosRoute
   '/app/pagamentos': typeof AppPagamentosRoute
   '/app/perfil': typeof AppPerfilRoute
+  '/app/remuneracao': typeof AppRemuneracaoRoute
   '/app/saques': typeof AppSaquesRoute
   '/app/suporte': typeof AppSuporteRoute
   '/admin/': typeof AdminIndexRoute
@@ -242,6 +244,7 @@ export interface FileRouteTypes {
     | '/app/metodos'
     | '/app/pagamentos'
     | '/app/perfil'
+    | '/app/remuneracao'
     | '/app/saques'
     | '/app/suporte'
     | '/admin/'
@@ -264,6 +267,7 @@ export interface FileRouteTypes {
     | '/app/metodos'
     | '/app/pagamentos'
     | '/app/perfil'
+    | '/app/remuneracao'
     | '/app/saques'
     | '/app/suporte'
     | '/admin'
@@ -288,6 +292,7 @@ export interface FileRouteTypes {
     | '/app/metodos'
     | '/app/pagamentos'
     | '/app/perfil'
+    | '/app/remuneracao'
     | '/app/saques'
     | '/app/suporte'
     | '/admin/'
@@ -444,6 +449,13 @@ declare module '@tanstack/react-router' {
       path: '/perfil'
       fullPath: '/app/perfil'
       preLoaderRoute: typeof AppPerfilRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/remuneracao': {
+      id: '/app/remuneracao'
+      path: '/remuneracao'
+      fullPath: '/app/remuneracao'
+      preLoaderRoute: typeof AppRemuneracaoRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/saques': {
