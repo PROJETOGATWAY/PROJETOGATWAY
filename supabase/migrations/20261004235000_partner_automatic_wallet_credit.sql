@@ -11,6 +11,10 @@ create unique index if not exists payment_financial_ledger_partner_reversal_once
   on public.payment_financial_ledger(seller_id,payment_id,entry_type)
   where entry_type='partner_reversal' and payment_id is not null;
 
+alter table public.payment_financial_ledger drop constraint if exists payment_financial_ledger_entry_type_check;
+alter table public.payment_financial_ledger add constraint payment_financial_ledger_entry_type_check
+  check(entry_type in('sale_credit','reversal_debit','withdrawal_debit','withdrawal_release','partner_credit','partner_reversal'));
+
 -- One-time transition of legacy participation already apurada but not settled.
 -- A settlement is considered settled only through its existing allocation records.
 do $migration$
