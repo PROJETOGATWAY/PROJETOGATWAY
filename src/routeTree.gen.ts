@@ -32,6 +32,7 @@ import { Route as AppPagamentosRouteImport } from './routes/app/pagamentos'
 import { Route as AppPerfilRouteImport } from './routes/app/perfil'
 import { Route as AppRemuneracaoRouteImport } from './routes/app/remuneracao'
 import { Route as AppSaquesRouteImport } from './routes/app/saques'
+import { Route as AppSocioRouteImport } from './routes/app/socio'
 import { Route as AppSuporteRouteImport } from './routes/app/suporte'
 
 const IndexRoute = IndexRouteImport.update({
@@ -149,6 +150,11 @@ const AppSaquesRoute = AppSaquesRouteImport.update({
   path: '/saques',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSocioRoute = AppSocioRouteImport.update({
+  id: '/socio',
+  path: '/socio',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSuporteRoute = AppSuporteRouteImport.update({
   id: '/suporte',
   path: '/suporte',
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/app/perfil': typeof AppPerfilRoute
   '/app/remuneracao': typeof AppRemuneracaoRoute
   '/app/saques': typeof AppSaquesRoute
+  '/app/socio': typeof AppSocioRoute
   '/app/suporte': typeof AppSuporteRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByTo {
   '/app/perfil': typeof AppPerfilRoute
   '/app/remuneracao': typeof AppRemuneracaoRoute
   '/app/saques': typeof AppSaquesRoute
+  '/app/socio': typeof AppSocioRoute
   '/app/suporte': typeof AppSuporteRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/app/perfil': typeof AppPerfilRoute
   '/app/remuneracao': typeof AppRemuneracaoRoute
   '/app/saques': typeof AppSaquesRoute
+  '/app/socio': typeof AppSocioRoute
   '/app/suporte': typeof AppSuporteRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/app/perfil'
     | '/app/remuneracao'
     | '/app/saques'
+    | '/app/socio'
     | '/app/suporte'
     | '/admin/'
     | '/app/'
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/app/perfil'
     | '/app/remuneracao'
     | '/app/saques'
+    | '/app/socio'
     | '/app/suporte'
     | '/admin'
     | '/app'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/app/perfil'
     | '/app/remuneracao'
     | '/app/saques'
+    | '/app/socio'
     | '/app/suporte'
     | '/admin/'
     | '/app/'
@@ -484,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSaquesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/socio': {
+      id: '/app/socio'
+      path: '/socio'
+      fullPath: '/app/socio'
+      preLoaderRoute: typeof AppSocioRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/suporte': {
       id: '/app/suporte'
       path: '/suporte'
@@ -528,6 +547,7 @@ interface AppRouteChildren {
   AppPerfilRoute: typeof AppPerfilRoute
   AppRemuneracaoRoute: typeof AppRemuneracaoRoute
   AppSaquesRoute: typeof AppSaquesRoute
+  AppSocioRoute: typeof AppSocioRoute
   AppSuporteRoute: typeof AppSuporteRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -538,6 +558,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPerfilRoute: AppPerfilRoute,
   AppRemuneracaoRoute: AppRemuneracaoRoute,
   AppSaquesRoute: AppSaquesRoute,
+  AppSocioRoute: AppSocioRoute,
   AppSuporteRoute: AppSuporteRoute,
   AppIndexRoute: AppIndexRoute,
 }
