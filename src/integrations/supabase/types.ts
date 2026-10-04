@@ -22,6 +22,8 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          suspended_at: string | null
+          suspension_reason: string | null
           role: Database["public"]["Enums"]["user_role"]
           status: Database["public"]["Enums"]["user_status"]
           updated_at: string | null
@@ -33,6 +35,8 @@ export type Database = {
           email?: string
           full_name?: string
           id: string
+          suspended_at?: string | null
+          suspension_reason?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["user_status"]
           updated_at?: string | null
@@ -44,6 +48,8 @@ export type Database = {
           email?: string
           full_name?: string
           id?: string
+          suspended_at?: string | null
+          suspension_reason?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["user_status"]
           updated_at?: string | null
@@ -51,11 +57,39 @@ export type Database = {
         Relationships: []
       }
     }
+    Tables: {
+      ...Database["public"]["Tables"],
+      platform_settings: {
+        Row: { id: number; mbway_phone: string | null; central_iban: string | null; platform_fee_percent: number; minimum_withdrawal_eur: number; withdrawal_fixed_fee_eur: number; withdrawals_paused: boolean; initialized_at: string | null; updated_at: string; updated_by: string | null }
+        Insert: { id?: number; mbway_phone?: string | null; central_iban?: string | null; platform_fee_percent?: number; minimum_withdrawal_eur?: number; withdrawal_fixed_fee_eur?: number; withdrawals_paused?: boolean; initialized_at?: string | null; updated_at?: string; updated_by?: string | null }
+        Update: { id?: number; mbway_phone?: string | null; central_iban?: string | null; platform_fee_percent?: number; minimum_withdrawal_eur?: number; withdrawal_fixed_fee_eur?: number; withdrawals_paused?: boolean; initialized_at?: string | null; updated_at?: string; updated_by?: string | null }
+        Relationships: []
+      },
+      payment_records: {
+        Row: { id: string; seller_id: string; gross_amount_eur: number; fee_percent_snapshot: number; fee_amount_eur: number; net_amount_eur: number; status: string; reference: string | null; submitted_at: string; approved_at: string | null; created_at: string; updated_at: string }
+        Insert: { id?: string; seller_id: string; gross_amount_eur: number; fee_percent_snapshot: number; fee_amount_eur: number; net_amount_eur: number; status?: string; reference?: string | null; submitted_at?: string; approved_at?: string | null; created_at?: string; updated_at?: string }
+        Update: { id?: string; seller_id?: string; gross_amount_eur?: number; fee_percent_snapshot?: number; fee_amount_eur?: number; net_amount_eur?: number; status?: string; reference?: string | null; submitted_at?: string; approved_at?: string | null; created_at?: string; updated_at?: string }
+        Relationships: []
+      },
+      withdrawals: {
+        Row: { id: string; seller_id: string; amount_eur: number; fixed_fee_snapshot_eur: number; status: string; created_at: string; confirmed_at: string | null; updated_at: string }
+        Insert: { id?: string; seller_id: string; amount_eur: number; fixed_fee_snapshot_eur: number; status?: string; created_at?: string; confirmed_at?: string | null; updated_at?: string }
+        Update: { id?: string; seller_id?: string; amount_eur?: number; fixed_fee_snapshot_eur?: number; status?: string; created_at?: string; confirmed_at?: string | null; updated_at?: string }
+        Relationships: []
+      }
+    }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      save_platform_settings: { Args: { p_mbway_phone: string | null; p_central_iban: string | null; p_platform_fee_percent: number; p_minimum_withdrawal_eur: number; p_withdrawal_fixed_fee_eur: number; p_withdrawals_paused: boolean }; Returns: Database["public"]["Tables"]["platform_settings"]["Row"] }
+      get_seller_dashboard: { Args: {}; Returns: { available_balance_eur: number; pending_balance_eur: number; approved_volume_eur: number; at_risk_eur: number; reserved_withdrawals_eur: number }[] }
+      update_my_profile: { Args: { p_full_name: string }; Returns: Database["public"]["Tables"]["profiles"]["Row"] }
+      suspend_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
+      reactivate_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
+      bootstrap_superadmin: { Args: { p_email: string }; Returns: undefined }
+      invite_admin_record: { Args: { p_email: string }; Returns: string }
+      revoke_admin: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
     }
     Enums: {
       user_role: "seller" | "admin"
