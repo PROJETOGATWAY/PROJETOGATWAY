@@ -18,6 +18,17 @@ declare
   e record;
   net_due numeric;
   settlement_mismatch boolean;
+  migration_actor uuid;
+
+begin
+  select p.id into migration_actor
+  from public.profiles p
+  where p.role='admin' and p.admin_level='superadmin' and p.status='active'
+  order by p.created_at,p.id
+  limit 1;
+  if migration_actor is null then
+    raise exception 'Não foi possível identificar o superadministrador para auditar a migração da carteira de Sócio';
+  end if;
 begin
   for e in
     select pe.id,pe.payment_id,pe.beneficiary_id,pe.amount_eur
@@ -59,7 +70,7 @@ begin
         seller_id,payment_id,entry_type,amount_eur,reason,created_by
       )
       values(
-        e.beneficiary_id,e.payment_id,'partner_credit',net_due,'Participação de sócio',null
+        e.beneficiary_id,e.payment_id,'partner_credit',net_due,'Participação de sócio',migration_actor
       )
       on conflict(seller_id,payment_id,entry_type) where entry_type='partner_credit' and payment_id is not null do nothing;
 
