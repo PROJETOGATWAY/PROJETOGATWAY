@@ -29,6 +29,7 @@ import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppMetodosRouteImport } from './routes/app/metodos'
 import { Route as AppPagamentosRouteImport } from './routes/app/pagamentos'
 import { Route as AppPerfilRouteImport } from './routes/app/perfil'
+import { Route as AppRemuneracaoRouteImport } from './routes/app/remuneracao'
 import { Route as AppSaquesRouteImport } from './routes/app/saques'
 import { Route as AppSuporteRouteImport } from './routes/app/suporte'
 
@@ -127,6 +128,11 @@ const AppPagamentosRoute = AppPagamentosRouteImport.update({
   path: '/pagamentos',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRemuneracaoRoute = AppRemuneracaoRouteImport.update({
+  id: '/remuneracao',
+  path: '/remuneracao',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPerfilRoute = AppPerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
@@ -161,7 +167,8 @@ export interface FileRoutesByFullPath {
   '/admin/vendedores': typeof AdminVendedoresRoute
   '/app/metodos': typeof AppMetodosRoute
   '/app/pagamentos': typeof AppPagamentosRoute
-  '/app/perfil': typeof AppPerfilRoute
+  '/app/perfil': typeof AppPerfilRoute,
+  '/app/remuneracao': typeof AppRemuneracaoRoute
   '/app/saques': typeof AppSaquesRoute
   '/app/suporte': typeof AppSuporteRoute
   '/admin/': typeof AdminIndexRoute
