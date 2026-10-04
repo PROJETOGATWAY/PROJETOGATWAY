@@ -1,9 +1,9 @@
 -- Etapa 1: identidade, perfis, administração e auditoria
 create extension if not exists pgcrypto;
 
-create type public.app_role as enum ('seller','admin');
-create type public.account_status as enum ('active','suspended');
-create type public.admin_level as enum ('standard','superadmin');
+do $ begin create type public.app_role as enum ('seller','admin'); exception when duplicate_object then null; end $;
+do $ begin create type public.account_status as enum ('active','suspended'); exception when duplicate_object then null; end $;
+do $ begin create type public.admin_level as enum ('standard','superadmin'); exception when duplicate_object then null; end $;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
@@ -38,6 +38,17 @@ create table if not exists public.audit_logs (
   metadata jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now()
 );
+
+alter table public.profiles add column if not exists full_name text not null default '';
+alter table public.profiles add column if not exists email text not null default '';
+alter table public.profiles add column if not exists role public.app_role not null default 'seller';
+alter table public.profiles add column if not exists status public.account_status not null default 'active';
+alter table public.profiles add column if not exists admin_level public.admin_level not null default 'standard';
+alter table public.profiles add column if not exists accepted_terms_at timestamptz;
+alter table public.profiles add column if not exists suspended_at timestamptz;
+alter table public.profiles add column if not exists suspension_reason text;
+alter table public.profiles add column if not exists created_at timestamptz not null default now();
+alter table public.profiles add column if not exists updated_at timestamptz not null default now();
 
 create index if not exists profiles_role_status_idx on public.profiles(role,status);
 create index if not exists profiles_email_idx on public.profiles(lower(email));
