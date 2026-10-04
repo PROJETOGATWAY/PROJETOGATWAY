@@ -19,6 +19,7 @@ declare
   net_due numeric;
   settlement_mismatch boolean;
   migration_actor uuid;
+begin
   select p.id into migration_actor
   from public.profiles p
   where p.role='admin' and p.admin_level='superadmin' and p.status='active'
