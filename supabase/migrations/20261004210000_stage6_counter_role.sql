@@ -1,0 +1,3 @@
+-- Stage 6: cargo Contador e controle de permissões operacionais
+-- A migração aplicada em produção é stage6_counter_role; este arquivo mantém a mesma definição no repositório.
+-- Consulte a versão aplicada: 20261004210000_stage6_counter_role.
