@@ -1,4 +1,4 @@
-import{useEffect,useMemo,useState}from"react";import{Handshake,RefreshCw,Search,ShieldOff,ShieldCheck,XCircle,WalletCards,History,Upload}from"lucide-react";import{getPartnerManagement,savePartnerRule,createPartnerSettlement,uploadPartnerSettlementProof,partnerSettlementProofPath,type PartnerManagementRow,type PartnerRule}from"../lib/platform";import{getSupabase}from"../lib/supabase";import{useAuth}from"../lib/auth";import{formatEur}from"../lib/platform";
+import{useEffect,useMemo,useState}from"react";import{Handshake,RefreshCw,Search,ShieldOff,ShieldCheck,XCircle,WalletCards,History,Upload}from"lucide-react";import{getPartnerManagement,savePartnerRule,createPartnerSettlement,uploadPartnerSettlementProof,partnerSettlementProofPath,formatEur,type PartnerManagementRow,type PartnerRule}from"../lib/platform";import{getSupabase}from"../lib/supabase";import{useAuth}from"../lib/auth";
 
 type Seller={id:string;full_name:string|null;email:string;status:"active"|"suspended";role:"seller"};
 
