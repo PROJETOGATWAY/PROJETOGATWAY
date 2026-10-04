@@ -233,7 +233,7 @@ export type Database = {
           gross_amount_eur: number
           id: string
           payment_id: string
-          rule_id: string
+          rule_id: string | null
         }
         Insert: {
           amount_eur: number
@@ -244,7 +244,7 @@ export type Database = {
           gross_amount_eur: number
           id?: string
           payment_id: string
-          rule_id: string
+          rule_id?: string | null
         }
         Update: {
           amount_eur?: number
@@ -255,7 +255,7 @@ export type Database = {
           gross_amount_eur?: number
           id?: string
           payment_id?: string
-          rule_id?: string
+          rule_id?: string | null
         }
         Relationships: [
           {
@@ -268,7 +268,7 @@ export type Database = {
           {
             foreignKeyName: "compensation_entries_payment_id_fkey"
             columns: ["payment_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "payment_records"
             referencedColumns: ["id"]
           },
@@ -425,6 +425,42 @@ export type Database = {
           {
             foreignKeyName: "compensation_settlements_created_by_fkey"
             columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      counter_commissions: {
+        Row: {
+          counter_id: string
+          percent: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          counter_id: string
+          percent?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          counter_id?: string
+          percent?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "counter_commissions_counter_id_fkey"
+            columns: ["counter_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "counter_commissions_updated_by_fkey"
+            columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1730,6 +1766,16 @@ export type Database = {
           total_paid_eur: number
         }[]
       }
+      get_my_counter_overview: {
+        Args: never
+        Returns: {
+          jaguapay_fees_eur: number
+          jaguapay_gross_eur: number
+          percent: number
+          platform_fee_percent: number
+          total_accrued_eur: number
+        }[]
+      }
       get_seller_dashboard:
         | {
             Args: never
@@ -1916,6 +1962,21 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "platform_settings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      set_counter_commission: {
+        Args: { p_counter_id: string; p_percent: number }
+        Returns: {
+          counter_id: string
+          percent: number
+          updated_at: string
+          updated_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "counter_commissions"
           isOneToOne: true
           isSetofReturn: false
         }
