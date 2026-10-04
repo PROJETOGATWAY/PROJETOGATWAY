@@ -41,7 +41,7 @@ export function usePlatformSettings(){
     void load();
     const channel=supabase.channel("platform-settings-live")
       .on("postgres_changes",{event:"*",schema:"public",table:"platform_settings"},()=>{void load()})
-      .subscribe();
+      .subscribe((status)=>{if(status==="SUBSCRIBED")void load()});
     const onVisible=()=>{if(document.visibilityState==="visible")void load()};
     window.addEventListener("visibilitychange",onVisible);
     return()=>{mounted=false;window.removeEventListener("visibilitychange",onVisible);void supabase.removeChannel(channel)};
@@ -87,7 +87,7 @@ export function useSellerDashboard(){
     const channel=supabase.channel("seller-financial-live")
       .on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>{void load()})
       .on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>{void load()})
-      .subscribe();
+      .subscribe((status)=>{if(status==="SUBSCRIBED")void load()});
     return()=>{mounted=false;void supabase.removeChannel(channel)};
   },[]);
   return{data,loading,error};
@@ -116,7 +116,7 @@ export function useSellerLedger(){
     const channel=supabase.channel("seller-ledger-live")
       .on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>{void load()})
       .on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>{void load()})
-      .subscribe();
+      .subscribe((status)=>{if(status==="SUBSCRIBED")void load()});
     return()=>{mounted=false;void supabase.removeChannel(channel)};
   },[]);
   return{data,loading};
