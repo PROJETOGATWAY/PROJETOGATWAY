@@ -22,6 +22,8 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          suspended_at: string | null
+          suspension_reason: string | null
           role: Database["public"]["Enums"]["user_role"]
           status: Database["public"]["Enums"]["user_status"]
           updated_at: string | null
@@ -33,6 +35,8 @@ export type Database = {
           email?: string
           full_name?: string
           id: string
+          suspended_at?: string | null
+          suspension_reason?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["user_status"]
           updated_at?: string | null
@@ -44,6 +48,8 @@ export type Database = {
           email?: string
           full_name?: string
           id?: string
+          suspended_at?: string | null
+          suspension_reason?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["user_status"]
           updated_at?: string | null
