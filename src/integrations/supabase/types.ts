@@ -50,12 +50,74 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_invitations: {
+        Row: {
+          id: string
+          email: string
+          invited_by: string
+          status: string
+          expires_at: string
+          accepted_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          invited_by: string
+          status?: string
+          expires_at?: string
+          accepted_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          invited_by?: string
+          status?: string
+          expires_at?: string
+          accepted_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      audit_logs: {
+        Row: {
+          id: number
+          actor_id: string | null
+          action: string
+          target_user_id: string | null
+          metadata: Json
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          actor_id?: string | null
+          action: string
+          target_user_id?: string | null
+          metadata?: Json
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          actor_id?: string | null
+          action?: string
+          target_user_id?: string | null
+          metadata?: Json
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_my_profile: { Args: { p_full_name: string }; Returns: Database["public"]["Tables"]["profiles"]["Row"] }
+      suspend_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
+      reactivate_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
+      bootstrap_superadmin: { Args: { p_email: string }; Returns: undefined }
+      invite_admin_record: { Args: { p_email: string }; Returns: string }
+      revoke_admin: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
     }
     Enums: {
       user_role: "seller" | "admin"
