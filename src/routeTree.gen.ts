@@ -22,6 +22,7 @@ import { Route as AdminAuditoriaRouteImport } from './routes/admin/auditoria'
 import { Route as AdminConciliacaoRouteImport } from './routes/admin/conciliacao'
 import { Route as AdminConfiguracoesRouteImport } from './routes/admin/configuracoes'
 import { Route as AdminPagamentosRouteImport } from './routes/admin/pagamentos'
+import { Route as AdminPainelRouteImport } from './routes/admin/painel'
 import { Route as AdminSaquesRouteImport } from './routes/admin/saques'
 import { Route as AdminSuporteRouteImport } from './routes/admin/suporte'
 import { Route as AdminVendedoresRouteImport } from './routes/admin/vendedores'
@@ -98,6 +99,11 @@ const AdminPagamentosRoute = AdminPagamentosRouteImport.update({
   path: '/pagamentos',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPainelRoute = AdminPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSaquesRoute = AdminSaquesRouteImport.update({
   id: '/saques',
   path: '/saques',
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/admin/conciliacao': typeof AdminConciliacaoRoute
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pagamentos': typeof AdminPagamentosRoute
+  '/admin/painel': typeof AdminPainelRoute
   '/admin/saques': typeof AdminSaquesRoute
   '/admin/suporte': typeof AdminSuporteRoute
   '/admin/vendedores': typeof AdminVendedoresRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/admin/conciliacao': typeof AdminConciliacaoRoute
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pagamentos': typeof AdminPagamentosRoute
+  '/admin/painel': typeof AdminPainelRoute
   '/admin/saques': typeof AdminSaquesRoute
   '/admin/suporte': typeof AdminSuporteRoute
   '/admin/vendedores': typeof AdminVendedoresRoute
@@ -211,6 +219,7 @@ export interface FileRoutesById {
   '/admin/conciliacao': typeof AdminConciliacaoRoute
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pagamentos': typeof AdminPagamentosRoute
+  '/admin/painel': typeof AdminPainelRoute
   '/admin/saques': typeof AdminSaquesRoute
   '/admin/suporte': typeof AdminSuporteRoute
   '/admin/vendedores': typeof AdminVendedoresRoute
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/admin/conciliacao'
     | '/admin/configuracoes'
     | '/admin/pagamentos'
+    | '/admin/painel'
     | '/admin/saques'
     | '/admin/suporte'
     | '/admin/vendedores'
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/admin/conciliacao'
     | '/admin/configuracoes'
     | '/admin/pagamentos'
+    | '/admin/painel'
     | '/admin/saques'
     | '/admin/suporte'
     | '/admin/vendedores'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/admin/conciliacao'
     | '/admin/configuracoes'
     | '/admin/pagamentos'
+    | '/admin/painel'
     | '/admin/saques'
     | '/admin/suporte'
     | '/admin/vendedores'
@@ -402,6 +414,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPagamentosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/painel': {
+      id: '/admin/painel'
+      path: '/painel'
+      fullPath: '/admin/painel'
+      preLoaderRoute: typeof AdminPainelRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/saques': {
       id: '/admin/saques'
       path: '/saques'
@@ -481,6 +500,7 @@ interface AdminRouteChildren {
   AdminConciliacaoRoute: typeof AdminConciliacaoRoute
   AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
   AdminPagamentosRoute: typeof AdminPagamentosRoute
+  AdminPainelRoute: typeof AdminPainelRoute
   AdminSaquesRoute: typeof AdminSaquesRoute
   AdminSuporteRoute: typeof AdminSuporteRoute
   AdminVendedoresRoute: typeof AdminVendedoresRoute
@@ -493,6 +513,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminConciliacaoRoute: AdminConciliacaoRoute,
   AdminConfiguracoesRoute: AdminConfiguracoesRoute,
   AdminPagamentosRoute: AdminPagamentosRoute,
+  AdminPainelRoute: AdminPainelRoute,
   AdminSaquesRoute: AdminSaquesRoute,
   AdminSuporteRoute: AdminSuporteRoute,
   AdminVendedoresRoute: AdminVendedoresRoute,
