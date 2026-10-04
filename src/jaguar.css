@@ -530,3 +530,78 @@ body {
   align-self: flex-end;
   margin: 10px 12px;
 }
+
+/* Contador-only payment status filter. */
+.counter-status-filter {
+  min-width: 160px;
+  background: var(--jp-surface-2);
+  color: var(--jp-text);
+  border: 1px solid var(--jp-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color-scheme: dark;
+  position: relative;
+  z-index: 5;
+}
+.counter-status-filter:focus-visible {
+  outline: 2px solid var(--jp-gold);
+  outline-offset: 2px;
+}
+.counter-status-filter:hover,
+.counter-status-filter:focus {
+  border-color: var(--jp-gold);
+}
+.counter-status-filter option {
+  background: var(--jp-surface-2);
+  color: var(--jp-text);
+  font-size: 13px;
+}
+.counter-status-filter option:checked {
+  background: var(--jp-gold);
+  color: #11100f;
+}
+.counter-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.counter-overview-card small {
+  display: block;
+  margin-top: 10px;
+  color: var(--jp-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.counter-overview-period {
+  margin-bottom: 14px;
+}
+.counter-overview-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.counter-overview-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+@media (max-width: 900px) {
+  .counter-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 620px) {
+  .counter-overview-grid {
+    grid-template-columns: 1fr;
+  }
+  .counter-overview-error {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .counter-status-filter {
+    width: 100%;
+  }
+}
