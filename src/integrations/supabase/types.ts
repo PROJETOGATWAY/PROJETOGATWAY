@@ -155,6 +155,53 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          created_at: string
+          dedupe_key: string
+          id: string
+          message: string
+          read_at: string | null
+          recipient_id: string
+          related_id: string | null
+          related_type: string | null
+          title: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          dedupe_key: string
+          id?: string
+          message: string
+          read_at?: string | null
+          recipient_id: string
+          related_id?: string | null
+          related_type?: string | null
+          title: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          dedupe_key?: string
+          id?: string
+          message?: string
+          read_at?: string | null
+          recipient_id?: string
+          related_id?: string | null
+          related_type?: string | null
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payment_admin_notes: {
         Row: {
           admin_id: string
@@ -455,6 +502,86 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      support_messages: {
+        Row: {
+          author_id: string
+          created_at: string
+          id: string
+          message: string
+          ticket_id: string
+        }
+        Insert: {
+          author_id: string
+          created_at?: string
+          id?: string
+          message: string
+          ticket_id: string
+        }
+        Update: {
+          author_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_messages_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_tickets: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          resolved_at: string | null
+          seller_id: string
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          resolved_at?: string | null
+          seller_id: string
+          status?: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          resolved_at?: string | null
+          seller_id?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       withdrawal_methods: {
         Row: {
@@ -770,6 +897,22 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      admin_financial_summary: {
+        Args: { p_end?: string; p_seller_id?: string; p_start?: string }
+        Returns: {
+          active_sellers: number
+          approved_gross_eur: number
+          jaguapay_sales_fees_eur: number
+          pending_payments_eur: number
+          sellers_available_eur: number
+          sellers_reserved_eur: number
+          suspended_sellers: number
+          under_review_payments_eur: number
+          withdrawal_fees_paid_eur: number
+          withdrawals_awaiting_action: number
+          withdrawals_paid: number
+        }[]
+      }
       admin_mark_withdrawal_paid: {
         Args: {
           p_paid_amount_brl?: number
@@ -848,6 +991,22 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "payment_records"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      admin_reply_support: {
+        Args: { p_message: string; p_status?: string; p_ticket_id: string }
+        Returns: {
+          author_id: string
+          created_at: string
+          id: string
+          message: string
+          ticket_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "support_messages"
           isOneToOne: true
           isSetofReturn: false
         }
@@ -1018,6 +1177,25 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      create_support_ticket: {
+        Args: { p_message: string; p_subject: string }
+        Returns: {
+          created_at: string
+          id: string
+          message: string
+          resolved_at: string | null
+          seller_id: string
+          status: string
+          subject: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "support_tickets"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       create_withdrawal_method: {
         Args: {
           p_bic_swift?: string
@@ -1084,6 +1262,18 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      emit_notification: {
+        Args: {
+          p_dedupe_key: string
+          p_message: string
+          p_recipient: string
+          p_related_id: string
+          p_related_type: string
+          p_title: string
+          p_type: string
+        }
+        Returns: undefined
       }
       finalize_payment_submission: {
         Args: {
@@ -1153,6 +1343,27 @@ export type Database = {
       invite_admin_record: { Args: { p_email: string }; Returns: string }
       is_admin: { Args: never; Returns: boolean }
       is_superadmin: { Args: never; Returns: boolean }
+      mark_notification_read: {
+        Args: { p_notification_id: string }
+        Returns: {
+          created_at: string
+          dedupe_key: string
+          id: string
+          message: string
+          read_at: string | null
+          recipient_id: string
+          related_id: string | null
+          related_type: string | null
+          title: string
+          type: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "notifications"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       reactivate_seller: {
         Args: { p_reason: string; p_user_id: string }
         Returns: undefined
