@@ -1,4 +1,4 @@
-import{createFileRoute,Link}from"@tanstack/react-router";import{useEffect,useState}from"react";import{ArrowRight,BadgePercent,Clock3,Euro,TrendingUp,Wallet}from"lucide-react";import{PageHeader}from"../../components/ui";import{formatEur,getCounterOperationOverview,getMyCounterOverview,listAdminPayments,type PaymentRecord}from"../../lib/platform";
+import{createFileRoute,Link}from"@tanstack/react-router";import{useEffect,useState}from"react";import{ArrowRight,BadgePercent,Euro,TrendingUp,Wallet}from"lucide-react";import{PageHeader}from"../../components/ui";import{formatEur,getCounterOperationOverview,getMyCounterOverview,listAdminPayments,type PaymentRecord}from"../../lib/platform";
 
 export const Route=createFileRoute("/admin/painel")({
   head:()=>({meta:[
