@@ -174,3 +174,46 @@ export async function adminApprovePayment(paymentId:string,input:{receiptId?:str
   });if(error)throw error;return data as PaymentRecord;
 }
 export async function openPaymentProof(path:string){const{data,error}=await getSupabase().storage.from("payment-proofs").createSignedUrl(path,300);if(error)throw error;window.open(data.signedUrl,"_blank","noopener,noreferrer")}
+
+
+export type WithdrawalMethodType="pix"|"iban"|"revolut";
+export type PixKeyType="cpf"|"cnpj"|"email"|"phone"|"random";
+export type WithdrawalMethod={
+  id:string;seller_id:string;method_type:WithdrawalMethodType;holder_name:string;tax_id:string;pix_key_type:PixKeyType|null;pix_key:string|null;
+  iban:string|null;country:string|null;bic_swift:string|null;revtag:string|null;ownership_declared:boolean;ownership_declared_at:string|null;
+  is_default:boolean;is_active:boolean;created_at:string;updated_at:string;
+};
+export type WithdrawalStatus="requested"|"under_review"|"approved_for_payment"|"processing"|"paid"|"rejected"|"cancelled";
+export type Withdrawal={
+  id:string;seller_id:string;amount_eur:number;fixed_fee_snapshot_eur:number;status:WithdrawalStatus;created_at:string;confirmed_at:string|null;updated_at:string;
+  withdrawal_method_id:string|null;method_type_snapshot:WithdrawalMethodType|null;destination_holder_name_snapshot:string|null;destination_tax_id_snapshot:string|null;
+  destination_pix_key_type_snapshot:PixKeyType|null;destination_pix_key_snapshot:string|null;destination_iban_snapshot:string|null;destination_country_snapshot:string|null;
+  destination_bic_swift_snapshot:string|null;destination_revtag_snapshot:string|null;destination_masked_snapshot:string|null;net_amount_eur:number|null;
+  payment_reference:string|null;payment_proof_path:string|null;paid_amount_brl:number|null;paid_at:string|null;decision_reason:string|null;decided_by:string|null;rules_updated_at_snapshot:string|null;
+};
+
+export function maskTaxId(value:string|null){if(!value)return"—";const digits=value.replace(/\\D/g,"");return digits.length===11?"***.***.***-"+digits.slice(-2):digits.length===14?"**.***.***/****-"+digits.slice(-2):"***"+value.slice(-4)}
+export function maskWithdrawalMethod(method:WithdrawalMethod){if(method.method_type==="pix"){const key=method.pix_key||"";if(method.pix_key_type==="email"){const [local,domain]=key.split("@");return (local?.slice(0,1)||"*")+"***@"+(domain||"***")}return "***"+key.replace(/\\D/g,"").slice(-4)}const iban=(method.iban||"").replace(/\\s/g,"");return (method.country||"")+" ••••"+iban.slice(-4)}
+export function withdrawalMethodLabel(type:WithdrawalMethodType){return type==="pix"?"Pix":type==="iban"?"IBAN":"Revolut"}
+export function withdrawalStatusLabel(status:WithdrawalStatus){return ({requested:"Solicitado",under_review:"Em análise",approved_for_payment:"Aprovado para pagamento",processing:"Em processamento",paid:"Pago",rejected:"Rejeitado",cancelled:"Cancelado"} as Record<WithdrawalStatus,string>)[status]}
+export function withdrawalStatusClass(status:WithdrawalStatus){return status==="paid"?"approved":status==="rejected"||status==="cancelled"?"rejected":status==="under_review"?"under_review":status==="processing"?"processing":status==="approved_for_payment"?"approved_for_payment":"pending"}
+
+export async function listWithdrawalMethods(includeInactive=false){
+  let q=getSupabase().from("withdrawal_methods").select("*").order("is_default",{ascending:false}).order("created_at",{ascending:false});
+  if(!includeInactive)q=q.eq("is_active",true);
+  const{data,error}=await q;if(error)throw error;return(data||[]) as WithdrawalMethod[];
+}
+export async function createWithdrawalMethod(input:{method_type:WithdrawalMethodType;holder_name:string;tax_id:string;pix_key_type?:PixKeyType|null;pix_key?:string|null;iban?:string|null;country?:string|null;bic_swift?:string|null;revtag?:string|null;ownership_declared:boolean}){
+  const{data,error}=await getSupabase().rpc("create_withdrawal_method",{p_method_type:input.method_type,p_holder_name:input.holder_name,p_tax_id:input.tax_id,p_pix_key_type:input.pix_key_type||null,p_pix_key:input.pix_key||null,p_iban:input.iban||null,p_country:input.country||null,p_bic_swift:input.bic_swift||null,p_revtag:input.revtag||null,p_ownership_declared:input.ownership_declared});
+  if(error)throw error;return data as WithdrawalMethod;
+}
+export async function setDefaultWithdrawalMethod(id:string){const{data,error}=await getSupabase().rpc("set_default_withdrawal_method",{p_method_id:id});if(error)throw error;return data as WithdrawalMethod}
+export async function deactivateWithdrawalMethod(id:string){const{data,error}=await getSupabase().rpc("deactivate_withdrawal_method",{p_method_id:id});if(error)throw error;return data as WithdrawalMethod}
+export async function requestWithdrawal(amount:number,methodId:string,rulesUpdatedAt:string){const{data,error}=await getSupabase().rpc("request_withdrawal",{p_amount_eur:amount,p_withdrawal_method_id:methodId,p_rules_updated_at:rulesUpdatedAt});if(error)throw error;return data as Withdrawal}
+export async function cancelOwnWithdrawal(id:string){const{data,error}=await getSupabase().rpc("cancel_own_withdrawal",{p_withdrawal_id:id});if(error)throw error;return data as Withdrawal}
+export async function listSellerWithdrawals(limit=50){const{data,error}=await getSupabase().from("withdrawals").select("*").order("created_at",{ascending:false}).limit(limit);if(error)throw error;return(data||[]) as Withdrawal[]}
+export async function listAdminWithdrawals(status?:string){let q=getSupabase().from("withdrawals").select("*").order("created_at",{ascending:false}).limit(100);if(status&&status!=="all")q=q.eq("status",status);const{data,error}=await q;if(error)throw error;return(data||[]) as Withdrawal[]}
+export async function adminSetWithdrawalStatus(id:string,status:WithdrawalStatus,reason?:string){const{data,error}=await getSupabase().rpc("admin_set_withdrawal_status",{p_withdrawal_id:id,p_status:status,p_reason:reason||null});if(error)throw error;return data as Withdrawal}
+export async function adminMarkWithdrawalPaid(id:string,reference:string,proofPath:string,paidAmountBrl?:number|null){const{data,error}=await getSupabase().rpc("admin_mark_withdrawal_paid",{p_withdrawal_id:id,p_payment_reference:reference,p_payment_proof_path:proofPath,p_paid_amount_brl:paidAmountBrl??null});if(error)throw error;return data as Withdrawal}
+export async function openWithdrawalProof(path:string){const{data,error}=await getSupabase().storage.from("withdrawal-proofs").createSignedUrl(path,300);if(error)throw error;window.open(data.signedUrl,"_blank","noopener,noreferrer")}
+export function withdrawalProofPath(withdrawalId:string,sellerId:string,filename:string){const safe=filename.replace(/[^A-Za-z0-9._-]/g,"_");return sellerId+"/"+withdrawalId+"/"+safe}
