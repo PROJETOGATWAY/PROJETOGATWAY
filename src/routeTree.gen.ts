@@ -493,6 +493,7 @@ interface AppRouteChildren {
   AppMetodosRoute: typeof AppMetodosRoute
   AppPagamentosRoute: typeof AppPagamentosRoute
   AppPerfilRoute: typeof AppPerfilRoute
+  AppRemuneracaoRoute: typeof AppRemuneracaoRoute
   AppSaquesRoute: typeof AppSaquesRoute
   AppSuporteRoute: typeof AppSuporteRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -502,6 +503,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMetodosRoute: AppMetodosRoute,
   AppPagamentosRoute: AppPagamentosRoute,
   AppPerfilRoute: AppPerfilRoute,
+  AppRemuneracaoRoute: AppRemuneracaoRoute,
   AppSaquesRoute: AppSaquesRoute,
   AppSuporteRoute: AppSuporteRoute,
   AppIndexRoute: AppIndexRoute,
