@@ -172,7 +172,8 @@ export async function adminApprovePayment(paymentId:string,input:{receiptId?:str
     p_payment_id:paymentId,p_receipt_id:input.receiptId||null,p_new_receipt_reference:input.reference||null,p_new_receipt_at:input.receivedAt||null,p_new_receipt_amount_eur:input.amount??null,p_new_receipt_method:input.method||null,p_new_receipt_observation:input.observation||null
   });if(error)throw error;return data as PaymentRecord;
 }
-export async function openPaymentProof(path:string){const{data,error}=await getSupabase().storage.from("payment-proofs").createSignedUrl(path,300);if(error)throw error;window.open(data.signedUrl,"_blank","noopener,noreferrer")}
+export async function getPaymentProofUrl(path:string){const{data,error}=await getSupabase().storage.from("payment-proofs").createSignedUrl(path,300);if(error)throw error;if(!data?.signedUrl)throw new Error("Não foi possível gerar o acesso temporário ao comprovante.");return data.signedUrl}
+export async function openPaymentProof(path:string){const url=await getPaymentProofUrl(path);window.open(url,"_blank","noopener,noreferrer")}
 
 
 export type WithdrawalMethodType="pix"|"iban"|"revolut";
