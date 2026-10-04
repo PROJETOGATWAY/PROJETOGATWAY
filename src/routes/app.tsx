@@ -1,0 +1,1 @@
+import{Outlet,createFileRoute}from"@tanstack/react-router";import{AuthGuard}from"../components/auth-guard";import{AppShell}from"../components/app-shell";export const Route=createFileRoute("/app")({component:()=> <AuthGuard><AppShell><Outlet/></AppShell></AuthGuard>});
