@@ -76,7 +76,7 @@ export type Database = {
       },
       withdrawal_methods: {
         Row:{id:string;seller_id:string;method_type:string;holder_name:string;tax_id:string|null;pix_key_type:string|null;pix_key:string|null;iban:string|null;country:string|null;bic_swift:string|null;revtag:string|null;ownership_declared:boolean;ownership_declared_at:string|null;is_default:boolean;is_active:boolean;created_at:string;updated_at:string}
-        Insert:{id?:string;seller_id:string;method_type:string;holder_name:string;tax_id:string;pix_key_type?:string|null;pix_key?:string|null;iban?:string|null;country?:string|null;bic_swift?:string|null;revtag?:string|null;ownership_declared?:boolean;ownership_declared_at?:string|null;is_default?:boolean;is_active?:boolean;created_at?:string;updated_at?:string}
+        Insert:{id?:string;seller_id:string;method_type:string;holder_name:string;tax_id?:string|null;pix_key_type?:string|null;pix_key?:string|null;iban?:string|null;country?:string|null;bic_swift?:string|null;revtag?:string|null;ownership_declared?:boolean;ownership_declared_at?:string|null;is_default?:boolean;is_active?:boolean;created_at?:string;updated_at?:string}
         Update:{id?:string;seller_id?:string;method_type?:string;holder_name?:string;tax_id?:string;pix_key_type?:string|null;pix_key?:string|null;iban?:string|null;country?:string|null;bic_swift?:string|null;revtag?:string|null;ownership_declared?:boolean;ownership_declared_at?:string|null;is_default?:boolean;is_active?:boolean;created_at?:string;updated_at?:string}
         Relationships:[]
       },
