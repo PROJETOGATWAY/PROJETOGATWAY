@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          accepted_terms_at: string | null
+          admin_level: string
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          status: Database["public"]["Enums"]["user_status"]
+          updated_at: string | null
+        }
+        Insert: {
+          accepted_terms_at?: string | null
+          admin_level?: string
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id: string
+          role?: Database["public"]["Enums"]["user_role"]
+          status?: Database["public"]["Enums"]["user_status"]
+          updated_at?: string | null
+        }
+        Update: {
+          accepted_terms_at?: string | null
+          admin_level?: string
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          status?: Database["public"]["Enums"]["user_status"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +58,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "seller" | "admin"
+      user_status: "pending" | "active" | "suspended" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +186,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["seller", "admin"],
+      user_status: ["pending", "active", "suspended", "rejected"],
+    },
   },
 } as const
