@@ -93,6 +93,35 @@ export function useSellerDashboard(){
   return{data,loading,error};
 }
 
+export type SellerLedgerEntry={id:string;kind:"payment"|"withdrawal";status:string;amount_eur:number;created_at:string;reference:string|null};
+
+export function useSellerLedger(){
+  const[data,setData]=useState<SellerLedgerEntry[]>([]);
+  const[loading,setLoading]=useState(true);
+  useEffect(()=>{
+    const supabase=getSupabase();let mounted=true;
+    const load=async()=>{
+      const[{data:payments},{data:withdrawals}]=await Promise.all([
+        supabase.from("payment_records").select("id,status,net_amount_eur,gross_amount_eur,reference,created_at").order("created_at",{ascending:false}).limit(20),
+        supabase.from("withdrawals").select("id,status,amount_eur,created_at").order("created_at",{ascending:false}).limit(20)
+      ]);
+      if(!mounted)return;
+      const entries=[
+        ...(payments||[]).map(p=>({id:p.id,kind:"payment" as const,status:p.status,amount_eur:Number(p.net_amount_eur||0),created_at:p.created_at,reference:p.reference||null})),
+        ...(withdrawals||[]).map(w=>({id:w.id,kind:"withdrawal" as const,status:w.status,amount_eur:-Number(w.amount_eur||0),created_at:w.created_at,reference:null}))
+      ].sort((a,b)=>new Date(b.created_at).getTime()-new Date(a.created_at).getTime()).slice(0,20);
+      setData(entries);setLoading(false);
+    };
+    void load();
+    const channel=supabase.channel("seller-ledger-live")
+      .on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>{void load()})
+      .on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>{void load()})
+      .subscribe();
+    return()=>{mounted=false;void supabase.removeChannel(channel)};
+  },[]);
+  return{data,loading};
+}
+
 export function formatEur(value:number){
   return new Intl.NumberFormat("pt-PT",{style:"currency",currency:"EUR",minimumFractionDigits:2}).format(value||0);
 }
