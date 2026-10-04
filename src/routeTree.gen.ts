@@ -23,6 +23,7 @@ import { Route as AdminConciliacaoRouteImport } from './routes/admin/conciliacao
 import { Route as AdminConfiguracoesRouteImport } from './routes/admin/configuracoes'
 import { Route as AdminPagamentosRouteImport } from './routes/admin/pagamentos'
 import { Route as AdminSaquesRouteImport } from './routes/admin/saques'
+import { Route as AdminSuporteRouteImport } from './routes/admin/suporte'
 import { Route as AdminVendedoresRouteImport } from './routes/admin/vendedores'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppMetodosRouteImport } from './routes/app/metodos'
@@ -101,6 +102,11 @@ const AdminSaquesRoute = AdminSaquesRouteImport.update({
   path: '/saques',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSuporteRoute = AdminSuporteRouteImport.update({
+  id: '/suporte',
+  path: '/suporte',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminVendedoresRoute = AdminVendedoresRouteImport.update({
   id: '/vendedores',
   path: '/vendedores',
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pagamentos': typeof AdminPagamentosRoute
   '/admin/saques': typeof AdminSaquesRoute
+  '/admin/suporte': typeof AdminSuporteRoute
   '/admin/vendedores': typeof AdminVendedoresRoute
   '/app/metodos': typeof AppMetodosRoute
   '/app/pagamentos': typeof AppPagamentosRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pagamentos': typeof AdminPagamentosRoute
   '/admin/saques': typeof AdminSaquesRoute
+  '/admin/suporte': typeof AdminSuporteRoute
   '/admin/vendedores': typeof AdminVendedoresRoute
   '/app/metodos': typeof AppMetodosRoute
   '/app/pagamentos': typeof AppPagamentosRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pagamentos': typeof AdminPagamentosRoute
   '/admin/saques': typeof AdminSaquesRoute
+  '/admin/suporte': typeof AdminSuporteRoute
   '/admin/vendedores': typeof AdminVendedoresRoute
   '/app/metodos': typeof AppMetodosRoute
   '/app/pagamentos': typeof AppPagamentosRoute
@@ -221,6 +230,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/pagamentos'
     | '/admin/saques'
+    | '/admin/suporte'
     | '/admin/vendedores'
     | '/app/metodos'
     | '/app/pagamentos'
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/pagamentos'
     | '/admin/saques'
+    | '/admin/suporte'
     | '/admin/vendedores'
     | '/app/metodos'
     | '/app/pagamentos'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/pagamentos'
     | '/admin/saques'
+    | '/admin/suporte'
     | '/admin/vendedores'
     | '/app/metodos'
     | '/app/pagamentos'
@@ -385,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSaquesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/suporte': {
+      id: '/admin/suporte'
+      path: '/suporte'
+      fullPath: '/admin/suporte'
+      preLoaderRoute: typeof AdminSuporteRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/vendedores': {
       id: '/admin/vendedores'
       path: '/vendedores'
@@ -444,6 +463,7 @@ interface AdminRouteChildren {
   AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
   AdminPagamentosRoute: typeof AdminPagamentosRoute
   AdminSaquesRoute: typeof AdminSaquesRoute
+  AdminSuporteRoute: typeof AdminSuporteRoute
   AdminVendedoresRoute: typeof AdminVendedoresRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -455,6 +475,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminConfiguracoesRoute: AdminConfiguracoesRoute,
   AdminPagamentosRoute: AdminPagamentosRoute,
   AdminSaquesRoute: AdminSaquesRoute,
+  AdminSuporteRoute: AdminSuporteRoute,
   AdminVendedoresRoute: AdminVendedoresRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
