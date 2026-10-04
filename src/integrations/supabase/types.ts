@@ -1780,6 +1780,7 @@ export type Database = {
         Returns: string
       }
       is_admin: { Args: never; Returns: boolean }
+      is_admin_or_counter: { Args: never; Returns: boolean }
       is_superadmin: { Args: never; Returns: boolean }
       mark_notification_read: {
         Args: { p_notification_id: string }
