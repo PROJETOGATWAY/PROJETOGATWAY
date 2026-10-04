@@ -1,0 +1,1 @@
+import{Bell}from"lucide-react";export function NotificationsBell(){return <button className="icon-button" aria-label="Notificações"><Bell size={16}/></button>}
