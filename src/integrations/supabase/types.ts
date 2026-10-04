@@ -105,7 +105,7 @@ export type Database = {
       save_platform_settings: { Args: { p_mbway_phone: string | null; p_central_iban: string | null; p_platform_fee_percent: number; p_minimum_withdrawal_eur: number; p_withdrawal_fixed_fee_eur: number; p_withdrawals_paused: boolean }; Returns: Database["public"]["Tables"]["platform_settings"]["Row"] }
       submit_payment: { Args: { p_gross_amount_eur: number; p_reference?: string | null }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
       request_withdrawal: { Args: { p_amount_eur: number; p_withdrawal_method_id: string; p_rules_updated_at: string }; Returns: Database["public"]["Tables"]["withdrawals"]["Row"] }
-      create_withdrawal_method: { Args: { p_method_type:string;p_holder_name:string;p_tax_id:string;p_pix_key_type?:string|null;p_pix_key?:string|null;p_iban?:string|null;p_country?:string|null;p_bic_swift?:string|null;p_revtag?:string|null;p_ownership_declared?:boolean }; Returns: Database["public"]["Tables"]["withdrawal_methods"]["Row"] }
+      create_withdrawal_method: { Args: { p_method_type:string;p_holder_name:string;p_tax_id:string|null;p_pix_key_type?:string|null;p_pix_key?:string|null;p_iban?:string|null;p_country?:string|null;p_bic_swift?:string|null;p_revtag?:string|null;p_ownership_declared?:boolean }; Returns: Database["public"]["Tables"]["withdrawal_methods"]["Row"] }
       set_default_withdrawal_method: { Args: { p_method_id:string }; Returns: Database["public"]["Tables"]["withdrawal_methods"]["Row"] }
       deactivate_withdrawal_method: { Args: { p_method_id:string }; Returns: Database["public"]["Tables"]["withdrawal_methods"]["Row"] }
       cancel_own_withdrawal: { Args: { p_withdrawal_id:string }; Returns: Database["public"]["Tables"]["withdrawals"]["Row"] }
