@@ -1,0 +1,4 @@
+revoke all on function public.admin_financial_summary(timestamptz,timestamptz,uuid) from public,anon; grant execute on function public.admin_financial_summary(timestamptz,timestamptz,uuid) to authenticated;
+revoke all on function public.create_support_ticket(text,text) from public,anon; grant execute on function public.create_support_ticket(text,text) to authenticated;
+revoke all on function public.admin_reply_support(uuid,text,text) from public,anon; grant execute on function public.admin_reply_support(uuid,text,text) to authenticated;
+revoke all on function public.mark_notification_read(uuid) from public,anon; grant execute on function public.mark_notification_read(uuid) to authenticated;
