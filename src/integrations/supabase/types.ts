@@ -73,8 +73,7 @@ export type Database = {
         Insert: { id?: string; seller_id: string; amount_eur: number; fixed_fee_snapshot_eur: number; status?: string; created_at?: string; confirmed_at?: string | null; updated_at?: string }
         Update: { id?: string; seller_id?: string; amount_eur?: number; fixed_fee_snapshot_eur?: number; status?: string; created_at?: string; confirmed_at?: string | null; updated_at?: string }
         Relationships: []
-      }
-    }
+      },
       central_receipts: {
         Row:{id:string;receipt_reference:string;received_at:string;amount_eur:number;payment_method:string;observation:string|null;seller_id:string|null;payment_id:string|null;created_by:string;created_at:string}
         Insert:{id?:string;receipt_reference:string;received_at?:string;amount_eur:number;payment_method:string;observation?:string|null;seller_id?:string|null;payment_id?:string|null;created_by:string;created_at?:string}
