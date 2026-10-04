@@ -137,3 +137,47 @@ export function whatsappInstructions(settings:PlatformSettings){
   if(settings.central_iban)lines.push(`IBAN: ${settings.central_iban}`);
   return lines.join("\n");
 }
+export type PaymentRecord={
+  id:string;payment_code:string;seller_id:string;gross_amount_eur:number;currency:"EUR";payment_method:"mbway"|"iban";fee_percent_snapshot:number;fee_amount_eur:number;net_amount_eur:number;status:"pending"|"under_review"|"approved"|"rejected"|"estornado";reference:string|null;order_id:string|null;notes:string|null;mbway_phone_snapshot:string|null;central_iban_snapshot:string|null;proof_path:string|null;proof_mime_type:string|null;proof_size_bytes:number|null;admin_notes:string|null;decision_reason:string|null;decided_by:string|null;receipt_id:string|null;created_at:string;submitted_at:string;approved_at:string|null;updated_at:string;
+};
+export type CentralReceipt={id:string;receipt_reference:string;received_at:string;amount_eur:number;payment_method:"mbway"|"iban";observation:string|null;seller_id:string|null;payment_id:string|null;created_by:string;created_at:string};
+export type AdminNote={id:string;payment_id:string;admin_id:string;note:string;created_at:string};
+
+export async function createPaymentSubmission(input:{gross_amount_eur:number;payment_method:"mbway"|"iban";reference:string;order_id:string;notes:string;idempotency_key:string}){
+  const{data,error}=await getSupabase().rpc("create_payment_submission",{
+    p_gross_amount_eur:input.gross_amount_eur,p_payment_method:input.payment_method,p_reference:input.reference||null,p_order_id:input.order_id||null,p_notes:input.notes||null,p_idempotency_key:input.idempotency_key
+  });
+  if(error)throw error;return data as PaymentRecord;
+}
+export async function finalizePaymentSubmission(paymentId:string,path:string,mime:string,size:number){
+  const{data,error}=await getSupabase().rpc("finalize_payment_submission",{p_payment_id:paymentId,p_proof_path:path,p_proof_mime_type:mime,p_proof_size_bytes:size});
+  if(error)throw error;return data as PaymentRecord;
+}
+export async function cleanupFailedPaymentSubmission(paymentId:string){await getSupabase().rpc("cleanup_failed_payment_submission",{p_payment_id:paymentId});}
+export async function listSellerPayments(limit=50){
+  const{data,error}=await getSupabase().from("payment_records").select("*").order("created_at",{ascending:false}).limit(limit);
+  if(error)throw error;return (data||[]) as PaymentRecord[];
+}
+export async function listAdminPayments(status?:string){
+  let q=getSupabase().from("payment_records").select("*").order("created_at",{ascending:false}).limit(100);
+  if(status&&status!=="all")q=q.eq("status",status);
+  const{data,error}=await q;if(error)throw error;return(data||[]) as PaymentRecord[];
+}
+export async function listCentralReceipts(){
+  const{data,error}=await getSupabase().from("central_receipts").select("*").order("received_at",{ascending:false}).limit(100);
+  if(error)throw error;return(data||[]) as CentralReceipt[];
+}
+export async function listPaymentNotes(paymentId:string){
+  const{data,error}=await getSupabase().from("payment_admin_notes").select("*").eq("payment_id",paymentId).order("created_at",{ascending:false});
+  if(error)throw error;return(data||[]) as AdminNote[];
+}
+export async function adminAddPaymentNote(paymentId:string,note:string){const{data,error}=await getSupabase().rpc("admin_add_payment_note",{p_payment_id:paymentId,p_note:note});if(error)throw error;return data as AdminNote}
+export async function adminRejectPayment(paymentId:string,reason:string){const{data,error}=await getSupabase().rpc("admin_reject_payment",{p_payment_id:paymentId,p_reason:reason});if(error)throw error;return data as PaymentRecord}
+export async function adminEscalatePayment(paymentId:string,reason:string){const{data,error}=await getSupabase().rpc("admin_escalate_payment",{p_payment_id:paymentId,p_reason:reason});if(error)throw error;return data as PaymentRecord}
+export async function adminReversePayment(paymentId:string,reason:string){const{data,error}=await getSupabase().rpc("admin_reverse_payment",{p_payment_id:paymentId,p_reason:reason});if(error)throw error;return data as PaymentRecord}
+export async function adminApprovePayment(paymentId:string,input:{receiptId?:string;reference?:string;receivedAt?:string;amount?:number;method?:string;observation?:string}){
+  const{data,error}=await getSupabase().rpc("admin_approve_payment",{
+    p_payment_id:paymentId,p_receipt_id:input.receiptId||null,p_new_receipt_reference:input.reference||null,p_new_receipt_at:input.receivedAt||null,p_new_receipt_amount_eur:input.amount??null,p_new_receipt_method:input.method||null,p_new_receipt_observation:input.observation||null
+  });if(error)throw error;return data as PaymentRecord;
+}
+export async function openPaymentProof(path:string){const{data,error}=await getSupabase().storage.from("payment-proofs").createSignedUrl(path,300);if(error)throw error;window.open(data.signedUrl,"_blank","noopener,noreferrer")}
