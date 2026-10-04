@@ -16,6 +16,12 @@ import { Route as AtualizarSenhaRouteImport } from './routes/atualizar-senha'
 import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
+import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as AppMetodosRouteImport } from './routes/app/metodos'
+import { Route as AppPagamentosRouteImport } from './routes/app/pagamentos'
+import { Route as AppPerfilRouteImport } from './routes/app/perfil'
+import { Route as AppSaquesRouteImport } from './routes/app/saques'
+import { Route as AppSuporteRouteImport } from './routes/app/suporte'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,34 +58,81 @@ const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
   path: '/recuperar-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMetodosRoute = AppMetodosRouteImport.update({
+  id: '/metodos',
+  path: '/metodos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPagamentosRoute = AppPagamentosRouteImport.update({
+  id: '/pagamentos',
+  path: '/pagamentos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPerfilRoute = AppPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSaquesRoute = AppSaquesRouteImport.update({
+  id: '/saques',
+  path: '/saques',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSuporteRoute = AppSuporteRouteImport.update({
+  id: '/suporte',
+  path: '/suporte',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/atualizar-senha': typeof AtualizarSenhaRoute
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/app/metodos': typeof AppMetodosRoute
+  '/app/pagamentos': typeof AppPagamentosRoute
+  '/app/perfil': typeof AppPerfilRoute
+  '/app/saques': typeof AppSaquesRoute
+  '/app/suporte': typeof AppSuporteRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRoute
   '/atualizar-senha': typeof AtualizarSenhaRoute
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/app/metodos': typeof AppMetodosRoute
+  '/app/pagamentos': typeof AppPagamentosRoute
+  '/app/perfil': typeof AppPerfilRoute
+  '/app/saques': typeof AppSaquesRoute
+  '/app/suporte': typeof AppSuporteRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/atualizar-senha': typeof AtualizarSenhaRoute
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/app/metodos': typeof AppMetodosRoute
+  '/app/pagamentos': typeof AppPagamentosRoute
+  '/app/perfil': typeof AppPerfilRoute
+  '/app/saques': typeof AppSaquesRoute
+  '/app/suporte': typeof AppSuporteRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,15 +144,26 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/recuperar-senha'
+    | '/app/metodos'
+    | '/app/pagamentos'
+    | '/app/perfil'
+    | '/app/saques'
+    | '/app/suporte'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
-    | '/app'
     | '/atualizar-senha'
     | '/cadastro'
     | '/login'
     | '/recuperar-senha'
+    | '/app/metodos'
+    | '/app/pagamentos'
+    | '/app/perfil'
+    | '/app/saques'
+    | '/app/suporte'
+    | '/app'
   id:
     | '__root__'
     | '/'
@@ -109,12 +173,18 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/recuperar-senha'
+    | '/app/metodos'
+    | '/app/pagamentos'
+    | '/app/perfil'
+    | '/app/saques'
+    | '/app/suporte'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AppRoute: typeof AppRoute
+  AppRoute: typeof AppRouteWithChildren
   AtualizarSenhaRoute: typeof AtualizarSenhaRoute
   CadastroRoute: typeof CadastroRoute
   LoginRoute: typeof LoginRoute
@@ -172,13 +242,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecuperarSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/metodos': {
+      id: '/app/metodos'
+      path: '/metodos'
+      fullPath: '/app/metodos'
+      preLoaderRoute: typeof AppMetodosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/pagamentos': {
+      id: '/app/pagamentos'
+      path: '/pagamentos'
+      fullPath: '/app/pagamentos'
+      preLoaderRoute: typeof AppPagamentosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/perfil': {
+      id: '/app/perfil'
+      path: '/perfil'
+      fullPath: '/app/perfil'
+      preLoaderRoute: typeof AppPerfilRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/saques': {
+      id: '/app/saques'
+      path: '/saques'
+      fullPath: '/app/saques'
+      preLoaderRoute: typeof AppSaquesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/suporte': {
+      id: '/app/suporte'
+      path: '/suporte'
+      fullPath: '/app/suporte'
+      preLoaderRoute: typeof AppSuporteRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
+
+interface AppRouteChildren {
+  AppMetodosRoute: typeof AppMetodosRoute
+  AppPagamentosRoute: typeof AppPagamentosRoute
+  AppPerfilRoute: typeof AppPerfilRoute
+  AppSaquesRoute: typeof AppSaquesRoute
+  AppSuporteRoute: typeof AppSuporteRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppMetodosRoute: AppMetodosRoute,
+  AppPagamentosRoute: AppPagamentosRoute,
+  AppPerfilRoute: AppPerfilRoute,
+  AppSaquesRoute: AppSaquesRoute,
+  AppSuporteRoute: AppSuporteRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AppRoute: AppRoute,
+  AppRoute: AppRouteWithChildren,
   AtualizarSenhaRoute: AtualizarSenhaRoute,
   CadastroRoute: CadastroRoute,
   LoginRoute: LoginRoute,
