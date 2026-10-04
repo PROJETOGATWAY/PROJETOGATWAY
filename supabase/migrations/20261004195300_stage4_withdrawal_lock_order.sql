@@ -4,7 +4,7 @@ as $$
 declare result public.withdrawals; old_status text; target_seller uuid;
 begin
  if not public.is_admin() then raise exception 'Acesso negado'; end if;
- select seller_id into target_seller from public.withdrawals where id=p_withholddrawal_id;
+ select seller_id into target_seller from public.withdrawals where id=p_withdrawal_id;
  if target_seller is null then raise exception 'Saque não encontrado'; end if;
  perform 1 from public.profiles where id=target_seller for update;
  select * into result from public.withdrawals where id=p_withdrawal_id for update;
