@@ -96,30 +96,23 @@ export function useSellerDashboard(){
 export type SellerLedgerEntry={id:string;kind:"payment"|"withdrawal";status:string;amount_eur:number;created_at:string;reference:string|null};
 
 export function useSellerLedger(){
-  const[data,setData]=useState<SellerLedgerEntry[]>([]);
-  const[loading,setLoading]=useState(true);
+  const[data,setData]=useState<SellerLedgerEntry[]>([]);const[loading,setLoading]=useState(true);
   useEffect(()=>{
     const supabase=getSupabase();let mounted=true;
     const load=async()=>{
-      const[{data:payments},{data:withdrawals}]=await Promise.all([
-        supabase.from("payment_records").select("id,status,net_amount_eur,gross_amount_eur,reference,created_at").order("created_at",{ascending:false}).limit(20),
-        supabase.from("withdrawals").select("id,status,amount_eur,created_at").order("created_at",{ascending:false}).limit(20)
-      ]);
-      if(!mounted)return;
+      const[{data:payments},{data:withdrawals},{data:ledger}]=await Promise.all([
+        supabase.from("payment_records").select("id,status,reference,created_at").order("created_at",{ascending:false}).limit(50),
+        supabase.from("withdrawals").select("id,status,amount_eur,created_at").order("created_at",{ascending:false}).limit(20),
+        supabase.from("payment_financial_ledger").select("id,entry_type,amount_eur,created_at,payment_id").order("created_at",{ascending:false}).limit(50)
+      ]);if(!mounted)return;
+      const paymentMap=new Map((payments||[]).map(p=>[p.id,p]));
       const entries=[
-        ...(payments||[]).map(p=>({id:p.id,kind:"payment" as const,status:p.status,amount_eur:Number(p.net_amount_eur||0),created_at:p.created_at,reference:p.reference||null})),
+        ...(ledger||[]).map(l=>({id:l.id,kind:"payment" as const,status:l.entry_type,amount_eur:Number(l.amount_eur||0),created_at:l.created_at,reference:l.payment_id?(paymentMap.get(l.payment_id)?.reference||null):null})),
+        ...(payments||[]).filter(p=>p.status!=="approved"&&p.status!=="estornado").map(p=>({id:p.id,kind:"payment" as const,status:p.status,amount_eur:0,created_at:p.created_at,reference:p.reference||null})),
         ...(withdrawals||[]).map(w=>({id:w.id,kind:"withdrawal" as const,status:w.status,amount_eur:-Number(w.amount_eur||0),created_at:w.created_at,reference:null}))
-      ].sort((a,b)=>new Date(b.created_at).getTime()-new Date(a.created_at).getTime()).slice(0,20);
-      setData(entries);setLoading(false);
-    };
-    void load();
-    const channel=supabase.channel("seller-ledger-live")
-      .on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>{void load()})
-      .on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>{void load()})
-      .subscribe((status)=>{if(status==="SUBSCRIBED")void load()});
-    return()=>{mounted=false;void supabase.removeChannel(channel)};
-  },[]);
-  return{data,loading};
+      ].sort((a,b)=>new Date(b.created_at).getTime()-new Date(a.created_at).getTime()).slice(0,30);setData(entries);setLoading(false);
+    };void load();const channel=supabase.channel("seller-ledger-live").on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>void load()).on("postgres_changes",{event:"*",schema:"public",table:"payment_financial_ledger"},()=>void load()).on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>void load()).subscribe((status)=>{if(status==="SUBSCRIBED")void load()});return()=>{mounted=false;void supabase.removeChannel(channel)};
+  },[]);return{data,loading};
 }
 
 export function formatEur(value:number){
