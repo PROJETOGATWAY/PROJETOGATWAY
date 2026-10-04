@@ -107,7 +107,7 @@ export type Database = {
       admin_escalate_payment: { Args: { p_payment_id:string;p_reason:string }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
       admin_approve_payment: { Args: { p_payment_id:string;p_receipt_id:string|null;p_new_receipt_reference:string|null;p_new_receipt_at:string|null;p_new_receipt_amount_eur:number|null;p_new_receipt_method:string|null;p_new_receipt_observation:string|null }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
       admin_reverse_payment: { Args: { p_payment_id:string;p_reason:string }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
-      get_seller_dashboard: { Args: {}; Returns: { available_balance_eur: number; pending_balance_eur: number; approved_volume_eur: number; at_risk_eur: number; reserved_withdrawals_eur: number }[] }
+      get_seller_dashboard: { Args: { p_start?: string | null; p_end?: string | null }; Returns: { available_balance_eur: number; pending_balance_eur: number; approved_volume_eur: number; at_risk_eur: number; reserved_withdrawals_eur: number }[] }
       update_my_profile: { Args: { p_full_name: string }; Returns: Database["public"]["Tables"]["profiles"]["Row"] }
       suspend_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
       reactivate_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
