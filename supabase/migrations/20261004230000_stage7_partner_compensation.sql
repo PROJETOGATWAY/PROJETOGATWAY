@@ -271,7 +271,7 @@ begin
   if not public.is_superadmin() then raise exception 'Somente o superadministrador pode registrar acertos de Sócios'; end if;
   if p_amount_eur is null or p_amount_eur<=0 then raise exception 'O valor do acerto deve ser maior que zero'; end if;
   if p_settlement_method not in('transfer','central_retention') then raise exception 'Forma de acerto inválida'; end if;
-  if p_settlement_method='transfer' and nullif(trim(coalesce(p_reference,'')) is null and nullif(trim(coalesce(p_proof_path,'')),'') is null then raise exception 'Transferência exige referência ou comprovante'; end if;
+  if p_settlement_method='transfer' and nullif(trim(coalesce(p_reference,'')),'') is null and nullif(trim(coalesce(p_proof_path,'')),'') is null then raise exception 'Transferência exige referência ou comprovante'; end if;
   if nullif(trim(coalesce(p_proof_path,'')),'') is not null and not exists(select 1 from storage.objects where bucket_id='partner-settlement-proofs' and name=trim(p_proof_path)) then raise exception 'O comprovante informado não foi encontrado no armazenamento privado'; end if;
   pending:=round(coalesce((select sum(e.amount_eur) from public.partner_entries e where e.beneficiary_id=p_beneficiary_id),0)+coalesce((select sum(a.amount_eur) from public.partner_adjustments a where a.beneficiary_id=p_beneficiary_id),0)-coalesce((select sum(s.amount_eur) from public.partner_settlements s where s.beneficiary_id=p_beneficiary_id),0),2);
   if pending<=0 then raise exception 'Não há saldo positivo pendente para este Sócio'; end if;
