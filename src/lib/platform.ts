@@ -103,7 +103,7 @@ export function useSellerLedger(){
       const[{data:payments},{data:withdrawals},{data:ledger}]=await Promise.all([
         supabase.from("payment_records").select("id,status,reference,created_at").order("created_at",{ascending:false}).limit(50),
         supabase.from("withdrawals").select("id,status,amount_eur,created_at").order("created_at",{ascending:false}).limit(20),
-        supabase.from("payment_financial_ledger").select("id,entry_type,amount_eur,created_at,payment_id").order("created_at",{ascending:false}).limit(50)
+        supabase.from("payment_financial_ledger").select("id,entry_type,amount_eur,created_at,payment_id,withdrawal_id").order("created_at",{ascending:false}).limit(50)
       ]);if(!mounted)return;
       const paymentMap=new Map((payments||[]).map(p=>[p.id,p]));const withdrawalMap=new Map((withdrawals||[]).map(w=>[w.id,w]));
       const entries=[
