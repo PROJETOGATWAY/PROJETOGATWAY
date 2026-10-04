@@ -80,6 +80,8 @@ export type Database = {
     }
     Functions: {
       save_platform_settings: { Args: { p_mbway_phone: string | null; p_central_iban: string | null; p_platform_fee_percent: number; p_minimum_withdrawal_eur: number; p_withdrawal_fixed_fee_eur: number; p_withdrawals_paused: boolean }; Returns: Database["public"]["Tables"]["platform_settings"]["Row"] }
+      submit_payment: { Args: { p_gross_amount_eur: number; p_reference?: string | null }; Returns: Database["public"]["Tables"]["payment_records"]["Row"] }
+      request_withdrawal: { Args: { p_amount_eur: number }; Returns: Database["public"]["Tables"]["withdrawals"]["Row"] }
       get_seller_dashboard: { Args: {}; Returns: { available_balance_eur: number; pending_balance_eur: number; approved_volume_eur: number; at_risk_eur: number; reserved_withdrawals_eur: number }[] }
       update_my_profile: { Args: { p_full_name: string }; Returns: Database["public"]["Tables"]["profiles"]["Row"] }
       suspend_seller: { Args: { p_user_id: string; p_reason: string }; Returns: undefined }
