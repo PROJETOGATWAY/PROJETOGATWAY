@@ -9,11 +9,9 @@ export const Route=createFileRoute("/login")({head:()=>({meta:[{title:'Entrar â€
 
 export function AuthLayout({eyebrow,title,subtitle,children}:{eyebrow?:string;title:string;subtitle?:string;children:ReactNode}){
   return <div className="auth-page">
-    <img className="auth-bg" src={authBg} alt="" aria-hidden="true"/>
-    <div className="auth-shade" aria-hidden="true"/>
     <div className="auth-stage">
-      <section className="auth-hero" aria-hidden="true">
-        <img className="auth-hero-jaguar" src={jaguarHero} alt="" width={1024} height={640}/>
+      <section className="auth-hero">
+        <img className="auth-hero-jaguar" src={jaguarIdentity} alt="" width={512} height={512} aria-hidden="true"/>
         <div className="auth-wordmark"><span>ARON</span><strong>PAY</strong></div>
         <div className="auth-hero-copy">GATEWAY FOCADO EM PAGAMENTO EUROPEU LOCAL</div>
         <div className="auth-hero-line"/>
