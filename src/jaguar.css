@@ -1317,3 +1317,11 @@ h1, h2, h3, .brand-name, .stat-card strong, .summary-card strong { font-family: 
 /* Official Aron Pay logo placement — visual only. */
 .jaguar-sidebar .brand-logo-jaguar{display:block;width:40px;height:40px;object-fit:contain;object-position:center;flex:0 0 40px}
 @media (max-width:720px){.jaguar-sidebar .brand-logo-jaguar{width:36px;height:36px;flex-basis:36px}}
+
+
+/* Hide Lovable branding widget globally. */
+#lovable-badge{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
