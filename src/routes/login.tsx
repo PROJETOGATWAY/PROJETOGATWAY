@@ -5,7 +5,7 @@ import { useAuth } from "../lib/auth";
 import { getSupabase } from "../lib/supabase";
 import jaguarIdentity from "../assets/jaguar-identity.webp";
 
-export const Route=createFileRoute("/login")({head:()=>({meta:[{title:'Entrar — JaguaPay'},{name:"description",content:'Entre na sua conta JaguaPay com segurança.'},{property:"og:title",content:'Entrar — JaguaPay'},{property:"og:description",content:'Entre na sua conta JaguaPay com segurança.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:LoginPage});
+export const Route=createFileRoute("/login")({head:()=>({meta:[{title:'Entrar — ARON PAY'},{name:"description",content:'Entre na sua conta ARON PAY com segurança.'},{property:"og:title",content:'Entrar — ARON PAY'},{property:"og:description",content:'Entre na sua conta ARON PAY com segurança.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:LoginPage});
 
 export function AuthLayout({eyebrow,title,subtitle,children}:{eyebrow?:string;title:string;subtitle?:string;children:ReactNode}){
   return <div className="auth-page">
@@ -14,7 +14,7 @@ export function AuthLayout({eyebrow,title,subtitle,children}:{eyebrow?:string;ti
     <div className="auth-stage">
       <section className="auth-hero" aria-hidden="true">
         <img className="auth-hero-jaguar" src={jaguarHero} alt="" width={1024} height={640}/>
-        <div className="auth-wordmark"><span>Jagua</span><strong>Pay</strong></div>
+        <div className="auth-wordmark"><span>ARON</span><strong>PAY</strong></div>
         <div className="auth-hero-copy">GATEWAY FOCADO EM PAGAMENTO EUROPEU LOCAL</div>
         <div className="auth-hero-line"/>
       </section>
