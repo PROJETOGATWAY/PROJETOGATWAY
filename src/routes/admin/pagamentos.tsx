@@ -1,6 +1,6 @@
 import{createFileRoute}from"@tanstack/react-router";import{useEffect,useMemo,useState}from"react";import{Check,Download,ExternalLink,Flag,MessageSquare,Search,X,XCircle}from"lucide-react";import{PageHeader}from"../../components/ui";import{getSupabase}from"../../lib/supabase";import{adminAddPaymentNote,adminApprovePayment,adminEscalatePayment,adminRejectPayment,adminReversePayment,formatEur,getPaymentProofUrl,listAdminPayments,listPaymentNotes,type AdminNote,type PaymentRecord}from"../../lib/platform";
 
-export const Route=createFileRoute("/admin/pagamentos")({component:AdminPayments});
+export const Route=createFileRoute("/admin/pagamentos")({head:()=>({meta:[{title:'Pagamentos para análise — JaguaPay'},{name:"description",content:'Confira pagamentos enviados para análise na JaguaPay.'},{property:"og:title",content:'Pagamentos para análise — JaguaPay'},{property:"og:description",content:'Confira pagamentos enviados para análise na JaguaPay.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:AdminPayments});
 function statusLabel(s:PaymentRecord["status"]){return({pending:"Aguardando análise",under_review:"Em análise adicional",approved:"Aprovado",rejected:"Rejeitado",estornado:"Estornado"} as const)[s]}
 function methodLabel(s:string){return s==="mbway"?"MB WAY":"IBAN"}
 

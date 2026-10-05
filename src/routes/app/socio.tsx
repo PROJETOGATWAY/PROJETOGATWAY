@@ -1,6 +1,6 @@
 import{createFileRoute,Navigate}from"@tanstack/react-router";import{useEffect,useMemo,useState}from"react";import{RefreshCw,Handshake}from"lucide-react";import{PageHeader}from"../../components/ui";import{formatEur,useSellerDashboard,getMyPartnerOverview,getMyPartnerWalletSummary,listMyPartnerAdjustments,listMyPartnerEntries,listMyPartnerSettlementAllocations,listMyPartnerSettlements,type PartnerAdjustment,type PartnerEntry,type PartnerSettlement,type PartnerSettlementAllocation}from"../../lib/platform";import{useAuth}from"../../lib/auth";import{getSupabase}from"../../lib/supabase";
 
-export const Route=createFileRoute("/app/socio")({component:PartnerGuard});
+export const Route=createFileRoute("/app/socio")({head:()=>({meta:[{title:'Painel do sócio — JaguaPay'},{name:"description",content:'Acompanhe sua participação na JaguaPay.'},{property:"og:title",content:'Painel do sócio — JaguaPay'},{property:"og:description",content:'Acompanhe sua participação na JaguaPay.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:PartnerGuard});
 
 function PartnerGuard(){const{profile}=useAuth();if(profile?.role!=="seller"||!profile.partner_enabled)return <Navigate to="/app"/>;return <PartnerPanel/>}
 

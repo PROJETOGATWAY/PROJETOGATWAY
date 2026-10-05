@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep JaguaPay's visual theme centralized in `src/jaguar.css` using semantic tokens, so presentation changes do not alter financial logic or role permissions.
+- Keep admin and seller navigation in their respective shared shells, with an off-canvas toggle on small screens, so every role can reach its existing pages without crowding content.

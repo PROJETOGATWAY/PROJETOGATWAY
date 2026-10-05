@@ -1,6 +1,6 @@
 import{createFileRoute}from"@tanstack/react-router";import{useEffect,useState}from"react";import{Landmark,Plus,ShieldCheck,Smartphone,Star,Trash2,WalletCards}from"lucide-react";import{PageHeader}from"../../components/ui";import{createWithdrawalMethod,deactivateWithdrawalMethod,listWithdrawalMethods,maskTaxId,maskWithdrawalMethod,setDefaultWithdrawalMethod,type PixKeyType,type WithdrawalMethod,type WithdrawalMethodType,withdrawalMethodLabel}from"../../lib/platform";
 
-export const Route=createFileRoute("/app/metodos")({component:Methods});
+export const Route=createFileRoute("/app/metodos")({head:()=>({meta:[{title:'Métodos de saque — JaguaPay'},{name:"description",content:'Gerencie seus métodos de saque na JaguaPay.'},{property:"og:title",content:'Métodos de saque — JaguaPay'},{property:"og:description",content:'Gerencie seus métodos de saque na JaguaPay.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:Methods});
 
 function Methods(){
  const[methods,setMethods]=useState<WithdrawalMethod[]>([]);const[loading,setLoading]=useState(true);const[error,setError]=useState<string|null>(null);const[saving,setSaving]=useState(false);const[showForm,setShowForm]=useState(false);

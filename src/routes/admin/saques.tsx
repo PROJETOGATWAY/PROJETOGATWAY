@@ -1,6 +1,6 @@
 import{createFileRoute}from"@tanstack/react-router";import{useEffect,useMemo,useState}from"react";import{Check,Clock3,FileText,Play,Search,ShieldAlert,XCircle}from"lucide-react";import{PageHeader}from"../../components/ui";import{adminMarkWithdrawalPaid,adminSetWithdrawalStatus,listAdminWithdrawals,openWithdrawalProof,type Withdrawal,withdrawalMethodLabel,withdrawalStatusClass,withdrawalStatusLabel}from"../../lib/platform";import{getSupabase}from"../../lib/supabase";
 
-export const Route=createFileRoute("/admin/saques")({component:AdminWithdrawals});
+export const Route=createFileRoute("/admin/saques")({head:()=>({meta:[{title:'Saques administrativos — JaguaPay'},{name:"description",content:'Acompanhe e analise solicitações de saque JaguaPay.'},{property:"og:title",content:'Saques administrativos — JaguaPay'},{property:"og:description",content:'Acompanhe e analise solicitações de saque JaguaPay.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:AdminWithdrawals});
 
 function AdminWithdrawals(){
  const[items,setItems]=useState<Withdrawal[]>([]);const[sellers,setSellers]=useState<Record<string,string>>({});const[filter,setFilter]=useState("all");const[query,setQuery]=useState("");const[selected,setSelected]=useState<Withdrawal|null>(null);const[loading,setLoading]=useState(true);const[error,setError]=useState<string|null>(null);const[saving,setSaving]=useState(false);

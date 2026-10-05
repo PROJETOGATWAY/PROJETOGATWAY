@@ -6,6 +6,8 @@ export const Route=createFileRoute("/admin/painel")({
     {name:"description",content:"Resumo operacional e de comissões do contador na JaguaPay."},
     {property:"og:title",content:"Painel do Contador — JaguaPay"},
     {property:"og:description",content:"Resumo operacional e de comissões do contador na JaguaPay."},
+    {property:"og:type",content:"website"},
+    {name:"twitter:card",content:"summary"},
   ]}),
   component:CounterDashboardPage,
 });
@@ -40,7 +42,7 @@ function CounterDashboardPage(){
 
   if(loading)return <div className="loading-screen"><div className="spinner"/><span>Carregando painel…</span></div>;
 
-  return <div>
+  return <div className="counter-dashboard">
     <PageHeader eyebrow="CONTADOR" title="Painel do Contador" description="Resumo do que entrou na JaguaPay e da sua comissão."/>
     {error&&<div className="alert error">{error}</div>}
 
