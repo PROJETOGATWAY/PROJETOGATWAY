@@ -3,8 +3,7 @@ import { createFileRoute,Link,useNavigate } from "@tanstack/react-router";
 import { ArrowRight,LockKeyhole,Mail } from "lucide-react";
 import { useAuth } from "../lib/auth";
 import { getSupabase } from "../lib/supabase";
-import jaguarHero from "../assets/jaguar-hero.png";
-import authBg from "../assets/auth-bg.jpg";
+import jaguarIdentity from "../assets/jaguar-identity.webp";
 
 export const Route=createFileRoute("/login")({head:()=>({meta:[{title:'Entrar — JaguaPay'},{name:"description",content:'Entre na sua conta JaguaPay com segurança.'},{property:"og:title",content:'Entrar — JaguaPay'},{property:"og:description",content:'Entre na sua conta JaguaPay com segurança.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:LoginPage});
 
