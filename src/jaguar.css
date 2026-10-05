@@ -1515,3 +1515,50 @@ h1, h2, h3, .brand-name, .stat-card strong, .summary-card strong { font-family: 
     filter: none;
   }
 }
+
+/* ===== Login — referência JaguaPay (jaguar + grid dourado) ===== */
+.auth-page { background: var(--jp-bg); }
+.auth-bg {
+  position: fixed; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  pointer-events: none;
+}
+.auth-shade {
+  position: fixed; inset: 0; z-index: 0;
+  background: radial-gradient(115% 85% at 50% 42%, transparent 34%, oklch(.07 .018 185 / .5) 76%, oklch(.05 .015 185 / .82) 100%);
+  pointer-events: none;
+}
+.auth-hero-jaguar {
+  position: relative; z-index: 1;
+  width: min(400px, 64vw);
+  height: auto;
+  filter: drop-shadow(0 24px 38px oklch(0 0 0 / .55)) drop-shadow(0 0 70px oklch(.75 .12 78 / .2));
+}
+.auth-wordmark {
+  margin-top: 6px;
+  letter-spacing: -.035em;
+  text-shadow: 0 10px 40px oklch(0 0 0 / .6);
+}
+.auth-hero-copy { color: oklch(.9 .01 97); }
+.auth-stage .auth-card {
+  background: color-mix(in oklab, var(--jp-surface) 78%, transparent);
+  border-color: color-mix(in oklab, var(--jp-border) 78%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  box-shadow: 0 30px 80px oklch(0 0 0 / .5);
+}
+.auth-stage .auth-card h1 { font-size: clamp(26px, 2.6vw, 33px); }
+.auth-stage .auth-form .input-with-icon svg { color: var(--jp-muted); }
+.auth-stage .auth-form input:not([type=checkbox]) { background: oklch(.1 .012 185 / .6); }
+.auth-links a { color: var(--jp-gold); }
+
+@media (max-width: 1000px) {
+  .auth-hero-jaguar { width: min(320px, 58vw); }
+}
+@media (max-width: 620px) {
+  .auth-bg { object-position: 42% center; }
+  .auth-hero-jaguar { width: min(280px, 74vw); }
+  .auth-hero { min-height: 300px; }
+}
