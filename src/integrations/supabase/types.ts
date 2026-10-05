@@ -514,6 +514,331 @@ export type Database = {
           },
         ]
       }
+      partner_adjustments: {
+        Row: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at: string
+          created_by: string
+          id: string
+          partner_entry_id: string
+          payment_id: string
+          reason: string
+        }
+        Insert: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          partner_entry_id: string
+          payment_id: string
+          reason: string
+        }
+        Update: {
+          amount_eur?: number
+          beneficiary_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          partner_entry_id?: string
+          payment_id?: string
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_adjustments_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_adjustments_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_adjustments_partner_entry_id_fkey"
+            columns: ["partner_entry_id"]
+            isOneToOne: false
+            referencedRelation: "partner_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_adjustments_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payment_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_entries: {
+        Row: {
+          amount_eur: number
+          applied_percent: number
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          gross_amount_eur: number
+          id: string
+          payment_id: string
+          rule_id: string
+        }
+        Insert: {
+          amount_eur: number
+          applied_percent: number
+          beneficiary_id: string
+          configured_percent: number
+          created_at?: string
+          gross_amount_eur: number
+          id?: string
+          payment_id: string
+          rule_id: string
+        }
+        Update: {
+          amount_eur?: number
+          applied_percent?: number
+          beneficiary_id?: string
+          configured_percent?: number
+          created_at?: string
+          gross_amount_eur?: number
+          id?: string
+          payment_id?: string
+          rule_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_entries_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_entries_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payment_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_entries_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "partner_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_payment_snapshots: {
+        Row: {
+          applied_percent: number
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          gross_amount_eur: number
+          id: string
+          payment_id: string
+          rule_id: string
+        }
+        Insert: {
+          applied_percent: number
+          beneficiary_id: string
+          configured_percent: number
+          created_at?: string
+          gross_amount_eur: number
+          id?: string
+          payment_id: string
+          rule_id: string
+        }
+        Update: {
+          applied_percent?: number
+          beneficiary_id?: string
+          configured_percent?: number
+          created_at?: string
+          gross_amount_eur?: number
+          id?: string
+          payment_id?: string
+          rule_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_payment_snapshots_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_payment_snapshots_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payment_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_payment_snapshots_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "partner_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_rules: {
+        Row: {
+          activated_at: string | null
+          active: boolean
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          created_by: string
+          deactivated_at: string | null
+          id: string
+          platform_fee_percent_at_activation: number
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          activated_at?: string | null
+          active?: boolean
+          beneficiary_id: string
+          configured_percent: number
+          created_at?: string
+          created_by: string
+          deactivated_at?: string | null
+          id?: string
+          platform_fee_percent_at_activation: number
+          updated_at?: string
+          version: number
+        }
+        Update: {
+          activated_at?: string | null
+          active?: boolean
+          beneficiary_id?: string
+          configured_percent?: number
+          created_at?: string
+          created_by?: string
+          deactivated_at?: string | null
+          id?: string
+          platform_fee_percent_at_activation?: number
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_rules_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_rules_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_settlement_allocations: {
+        Row: {
+          amount_eur: number
+          created_at: string
+          id: string
+          partner_entry_id: string
+          settlement_id: string
+        }
+        Insert: {
+          amount_eur: number
+          created_at?: string
+          id?: string
+          partner_entry_id: string
+          settlement_id: string
+        }
+        Update: {
+          amount_eur?: number
+          created_at?: string
+          id?: string
+          partner_entry_id?: string
+          settlement_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_settlement_allocations_partner_entry_id_fkey"
+            columns: ["partner_entry_id"]
+            isOneToOne: false
+            referencedRelation: "partner_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_settlement_allocations_settlement_id_fkey"
+            columns: ["settlement_id"]
+            isOneToOne: false
+            referencedRelation: "partner_settlements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_settlements: {
+        Row: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at: string
+          created_by: string
+          id: string
+          observation: string | null
+          proof_path: string | null
+          reference: string | null
+          settlement_date: string
+          settlement_method: string
+        }
+        Insert: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          observation?: string | null
+          proof_path?: string | null
+          reference?: string | null
+          settlement_date: string
+          settlement_method: string
+        }
+        Update: {
+          amount_eur?: number
+          beneficiary_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          observation?: string | null
+          proof_path?: string | null
+          reference?: string | null
+          settlement_date?: string
+          settlement_method?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_settlements_beneficiary_id_fkey"
+            columns: ["beneficiary_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_settlements_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payment_admin_notes: {
         Row: {
           admin_id: string
@@ -808,6 +1133,9 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          partner_enabled: boolean
+          partner_participation_active: boolean
+          partner_since: string | null
           role: Database["public"]["Enums"]["user_role"]
           status: Database["public"]["Enums"]["user_status"]
           suspended_at: string | null
@@ -822,6 +1150,9 @@ export type Database = {
           email?: string
           full_name?: string
           id: string
+          partner_enabled?: boolean
+          partner_participation_active?: boolean
+          partner_since?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["user_status"]
           suspended_at?: string | null
@@ -836,6 +1167,9 @@ export type Database = {
           email?: string
           full_name?: string
           id?: string
+          partner_enabled?: boolean
+          partner_participation_active?: boolean
+          partner_since?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["user_status"]
           suspended_at?: string | null
@@ -1109,6 +1443,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_partner_entry: {
+        Args: { p_amount_eur: number; p_entry_id: string; p_reason: string }
+        Returns: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at: string
+          created_by: string
+          id: string
+          partner_entry_id: string
+          payment_id: string
+          reason: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "partner_adjustments"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       admin_add_payment_note: {
         Args: { p_note: string; p_payment_id: string }
         Returns: {
@@ -1517,6 +1870,35 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      create_partner_settlement: {
+        Args: {
+          p_amount_eur: number
+          p_beneficiary_id: string
+          p_observation: string
+          p_proof_path: string
+          p_reference: string
+          p_settlement_date: string
+          p_settlement_method: string
+        }
+        Returns: {
+          amount_eur: number
+          beneficiary_id: string
+          created_at: string
+          created_by: string
+          id: string
+          observation: string | null
+          proof_path: string | null
+          reference: string | null
+          settlement_date: string
+          settlement_method: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "partner_settlements"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       create_payment_submission: {
         Args: {
           p_gross_amount_eur: number
@@ -1782,6 +2164,42 @@ export type Database = {
           total_accrued_eur: number
         }[]
       }
+      get_my_partner_overview: {
+        Args: never
+        Returns: {
+          active: boolean
+          approved_gross_eur: number
+          configured_percent: number
+          pending_eur: number
+          total_accrued_eur: number
+          total_adjustments_eur: number
+          total_paid_eur: number
+        }[]
+      }
+      get_my_partner_wallet_summary: {
+        Args: never
+        Returns: {
+          credited_eur: number
+          net_partner_wallet_eur: number
+          reversed_eur: number
+        }[]
+      }
+      get_partner_management: {
+        Args: never
+        Returns: {
+          current_percent: number
+          email: string
+          full_name: string
+          partner_enabled: boolean
+          partner_id: string
+          partner_participation_active: boolean
+          pending_eur: number
+          status: Database["public"]["Enums"]["user_status"]
+          total_accrued_eur: number
+          total_adjustments_eur: number
+          total_paid_eur: number
+        }[]
+      }
       get_seller_dashboard:
         | {
             Args: never
@@ -1813,6 +2231,9 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          partner_enabled: boolean
+          partner_participation_active: boolean
+          partner_since: string | null
           role: Database["public"]["Enums"]["user_role"]
           status: Database["public"]["Enums"]["user_status"]
           suspended_at: string | null
@@ -1940,6 +2361,34 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "compensation_rules"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      save_partner_rule: {
+        Args: {
+          p_active: boolean
+          p_configured_percent: number
+          p_partner_id: string
+          p_reason: string
+          p_remove?: boolean
+        }
+        Returns: {
+          activated_at: string | null
+          active: boolean
+          beneficiary_id: string
+          configured_percent: number
+          created_at: string
+          created_by: string
+          deactivated_at: string | null
+          id: string
+          platform_fee_percent_at_activation: number
+          updated_at: string
+          version: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "partner_rules"
           isOneToOne: true
           isSetofReturn: false
         }
@@ -2076,6 +2525,9 @@ export type Database = {
           email: string
           full_name: string
           id: string
+          partner_enabled: boolean
+          partner_participation_active: boolean
+          partner_since: string | null
           role: Database["public"]["Enums"]["user_role"]
           status: Database["public"]["Enums"]["user_status"]
           suspended_at: string | null
