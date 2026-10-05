@@ -1,6 +1,6 @@
 import{createFileRoute,Link}from"@tanstack/react-router";import{useEffect,useState}from"react";import{Check,Copy,CreditCard,Landmark,Clock3,ShieldAlert,WalletCards,TrendingUp,Hourglass,Percent,RefreshCw}from"lucide-react";import{PageHeader}from"../../components/ui";import{copyText,formatEur,usePlatformSettings,useSellerDashboard,useSellerLedger,whatsappInstructions,getCounterOperationOverview,getMyCompensationSummary}from"../../lib/platform";import{useAuth}from"../../lib/auth";import{getSupabase}from"../../lib/supabase";
 
-export const Route=createFileRoute("/app/")({component:Overview});
+export const Route=createFileRoute("/app/")({head:()=>({meta:[{title:'Visão geral — JaguaPay'},{name:"description",content:'Consulte o resumo da sua conta JaguaPay.'},{property:"og:title",content:'Visão geral — JaguaPay'},{property:"og:description",content:'Consulte o resumo da sua conta JaguaPay.'},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:Overview});
 
 function Overview(){
   const{profile}=useAuth();const isCounter=profile?.role==="admin"&&profile.admin_level==="contador";

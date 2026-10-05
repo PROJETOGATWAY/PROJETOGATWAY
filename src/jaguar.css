@@ -1246,3 +1246,31 @@ h1, h2, h3, .brand-name, .stat-card strong, .summary-card strong { font-family: 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Space apart dense operational forms and lists on every screen. */
+.settings-grid { gap: 8px 22px; }
+.field-label { margin: 12px 0 18px; gap: 9px; line-height: 1.45; }
+.field-label input, .field-label select, .field-label textarea, .field-select, .admin-filterbar input, .admin-filterbar select { min-height: 44px; }
+.settings-actions, .modal-actions { padding-top: 18px; margin-top: 18px; border-top: 1px solid var(--jp-border); }
+.fee-preview, .withdraw-summary { gap: 20px; padding: 20px; margin: 24px 0; border-radius: 8px; }
+.upload-box, .warning-box { padding: 18px; margin: 20px 0; line-height: 1.5; }
+.admin-filterbar { align-items: center; flex-wrap: wrap; gap: 12px; margin: 20px 0 24px; }
+.admin-filterbar > select, .admin-filterbar > input, .admin-filterbar > .admin-search { min-height: 44px; }
+.admin-filterbar > input { min-width: 220px; }
+.admin-invite { display: grid; grid-template-columns: auto minmax(140px, 1fr) minmax(180px, 1fr) auto auto; gap: 12px; padding: 18px; }
+.admin-invite input { min-width: 0; min-height: 42px; }
+.admin-invite select { min-height: 42px; color: var(--jp-text); background: var(--jp-bg); border: 1px solid var(--jp-border); border-radius: 8px; }
+.activity-row > div { min-width: 0; }
+.activity-row strong, .activity-row span, .payment-row strong, .payment-row span, .admin-payment-row strong, .admin-payment-row span { overflow-wrap: anywhere; }
+.modal-card { padding: 28px; }
+.detail-grid { gap: 14px; margin: 22px 0; }
+.detail-grid span, .detail-text, .note-box, .receipt-match { padding: 16px; gap: 10px; border-radius: 8px; }
+@media (max-width: 900px) { .admin-invite { grid-template-columns: 1fr 1fr; } .admin-invite > svg { display: none; } .admin-invite button { grid-column: 1 / -1; } }
+@media (max-width: 620px) {
+ .admin-invite { grid-template-columns: 1fr; }
+ .admin-invite button { grid-column: auto; }
+ .activity-row { align-items: flex-start; flex-wrap: wrap; }
+ .activity-row > div:last-child { align-items: flex-start; }
+ .modal-card { padding: 24px 18px; }
+ .admin-filterbar > input { min-width: 0; width: 100%; }
+}
