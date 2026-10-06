@@ -12,3 +12,4 @@
 - Keep JaguaPay's visual theme centralized in `src/jaguar.css` using semantic tokens, so presentation changes do not alter financial logic or role permissions.
 - Keep admin and seller navigation in their respective shared shells, with an off-canvas toggle on small screens, so every role can reach its existing pages without crowding content.
 - Share the uploaded logo's CDN asset pointer across authentication and role shells, with a locally resized favicon, to keep branding consistent without changing account logic.
+- Persist administrative summary resets as a reporting cutoff, never financial mutations; scoped authenticated server functions call authorization-checked RPCs with fixed search paths so resets survive reloads without changing wallets. Authenticated SECURITY DEFINER access on these RPCs is intentional: every call verifies auth.uid() and the existing admin/superadmin predicate before reading or writing.
