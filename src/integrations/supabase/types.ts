@@ -58,6 +58,38 @@ export type Database = {
           },
         ]
       }
+      admin_summary_reset: {
+        Row: {
+          created_at: string
+          id: number
+          reset_at: string | null
+          reset_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          reset_at?: string | null
+          reset_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          reset_at?: string | null
+          reset_by?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_summary_reset_reset_by_fkey"
+            columns: ["reset_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -2117,6 +2149,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      get_admin_display_summary: {
+        Args: { p_end?: string; p_seller_id?: string; p_start?: string }
+        Returns: Json
+      }
       get_compensation_admin_summary: {
         Args: never
         Returns: {
@@ -2330,6 +2366,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      reset_admin_display_summary: { Args: never; Returns: string }
       revoke_admin: {
         Args: { p_reason: string; p_user_id: string }
         Returns: undefined
