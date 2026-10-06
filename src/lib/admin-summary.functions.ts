@@ -15,7 +15,9 @@ export const getAdminDisplaySummary = createServerFn({ method: 'POST' })
   .inputValidator(z.object({ start: z.string().datetime().nullable(), end: z.string().datetime().nullable(), sellerId: z.string().uuid().nullable() }))
   .handler(async ({ data, context }) => {
     const { data: result, error } = await context.supabase.rpc('get_admin_display_summary', {
-      p_start: data.start ?? undefined, p_end: data.end ?? undefined, p_seller_id: data.sellerId ?? undefined,
+      ...(data.start ? { p_start: data.start } : {}),
+      ...(data.end ? { p_end: data.end } : {}),
+      ...(data.sellerId ? { p_seller_id: data.sellerId } : {}),
     });
     if (error) throw new Error('Não foi possível carregar o resumo. Tente novamente.');
     return result;
