@@ -378,9 +378,10 @@ input:focus-visible, textarea:focus-visible {
 .admin-management-page .partner-management-main {
   grid-area: identity;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 16px;
   min-width: 0;
 }
 .admin-management-page .partner-management-main > div {
@@ -390,7 +391,10 @@ input:focus-visible, textarea:focus-visible {
   min-width: 0;
 }
 .admin-management-page .partner-management-main > div span { overflow-wrap: anywhere; }
-.admin-management-page .partner-management-main > .status-badge { grid-area: status; }
+.admin-management-page .partner-management-main > .status-badge {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
 .admin-management-page .partner-management-metrics {
   grid-area: metrics;
   display: grid;
