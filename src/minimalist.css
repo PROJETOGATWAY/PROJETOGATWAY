@@ -484,3 +484,16 @@ input:focus-visible, textarea:focus-visible {
     flex: 1 1 145px;
   }
 }
+
+
+/* Nota explicativa do resumo sem painel ou divisória adicional. */
+.admin-summary-note {
+  margin: 14px 2px 0;
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--jp-muted);
+  font-size: 12px;
+  line-height: 1.65;
+  box-shadow: none !important;
+}
