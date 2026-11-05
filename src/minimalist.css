@@ -1,4 +1,4 @@
-/* JaguaPay — refinamento visual minimalista (somente CSS).
+/* JaguaPay — refinamento visual minimalista em dourado da marca (somente CSS).
    Não altera componentes, estados, eventos, rotas ou regras de negócio. */
 :root {
   --jp-bg: #080A0C;
@@ -7,8 +7,8 @@
   --jp-border: #29313B;
   --jp-text: #F2F5F7;
   --jp-muted: #9AA6B2;
-  --jp-gold: #00AEEF;
-  --jp-gold-strong: #28BDF2;
+  --jp-gold: #E7B64B;
+  --jp-gold-strong: #F6D987;
   --background: var(--jp-bg);
   --foreground: var(--jp-text);
   --card: var(--jp-surface);
@@ -16,7 +16,7 @@
   --popover: var(--jp-surface);
   --popover-foreground: var(--jp-text);
   --primary: var(--jp-gold);
-  --primary-foreground: #061116;
+  --primary-foreground: #17130A;
   --secondary: var(--jp-surface-2);
   --secondary-foreground: var(--jp-text);
   --muted: var(--jp-surface-2);
@@ -29,7 +29,7 @@
   --sidebar: #0C0E11;
   --sidebar-foreground: var(--jp-text);
   --sidebar-primary: var(--jp-gold);
-  --sidebar-primary-foreground: #061116;
+  --sidebar-primary-foreground: #17130A;
   --sidebar-accent: var(--jp-surface-2);
   --sidebar-accent-foreground: var(--jp-text);
   --sidebar-border: var(--jp-border);
@@ -66,7 +66,7 @@ h1, h2, h3, h4 { letter-spacing: -0.025em; }
 }
 .nav-item.active {
   color: var(--jp-gold);
-  background: rgba(0,174,239,.10);
+  background: rgba(231,182,75,.10);
   box-shadow: inset 2px 0 0 var(--jp-gold);
 }
 
@@ -148,7 +148,7 @@ h1, h2, h3, h4 { letter-spacing: -0.025em; }
 .field-select:focus, .auth-form input:focus, .auth-form select:focus,
 .auth-form textarea:focus {
   border-color: var(--jp-gold);
-  box-shadow: 0 0 0 2px rgba(0,174,239,.10);
+  box-shadow: 0 0 0 2px rgba(231,182,75,.10);
   outline: none;
 }
 .primary-button, .btn-primary {
@@ -157,7 +157,7 @@ h1, h2, h3, h4 { letter-spacing: -0.025em; }
   border: 1px solid transparent;
   border-radius: 8px;
   background: var(--jp-gold);
-  color: #061116;
+  color: #17130A;
   box-shadow: none;
   font-size: 13px;
   font-weight: 650;
@@ -201,8 +201,8 @@ input:focus-visible, textarea:focus-visible {
   border-radius: 10px;
 }
 .method-card { padding: 16px; }
-.method-icon { background: rgba(0,174,239,.10); color: var(--jp-gold); }
-.primary-pill { color: var(--jp-gold); border-color: rgba(0,174,239,.32); }
+.method-icon { background: rgba(231,182,75,.10); color: var(--jp-gold); }
+.primary-pill { color: var(--jp-gold); border-color: rgba(231,182,75,.32); }
 .section-kicker, .eyebrow, .sidebar-status span, .topbar-system span { color: var(--jp-muted); }
 .status-badge, .status-pill { border-radius: 7px; }
 .status-ok, .status-success, .sync-ok { color: var(--jp-success); }
@@ -243,7 +243,7 @@ input:focus-visible, textarea:focus-visible {
   border: 0;
   border-radius: 8px;
   background: var(--jp-gold);
-  color: #061116;
+  color: #17130A;
   box-shadow: none;
 }
 .auth-stage .auth-form .primary-button:hover:not(:disabled) {
