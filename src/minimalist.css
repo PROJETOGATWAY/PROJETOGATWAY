@@ -265,3 +265,32 @@ input:focus-visible, textarea:focus-visible {
   .overview-page, .counter-dashboard { gap: 18px; }
   .auth-stage .auth-card { padding: 22px 18px; }
 }
+
+
+/* Ação de reinício do resumo: contraste legível no tema escuro. */
+.page-header > button:has(svg.lucide-rotate-ccw) {
+  min-height: 40px;
+  padding: 0 15px;
+  gap: 8px;
+  color: #E7B64B !important;
+  background: #17130A !important;
+  border: 1px solid rgba(231,182,75,.48) !important;
+  border-radius: 8px;
+  box-shadow: none !important;
+  font-weight: 600;
+}
+.page-header > button:has(svg.lucide-rotate-ccw) svg {
+  color: #E7B64B !important;
+  opacity: 1;
+}
+.page-header > button:has(svg.lucide-rotate-ccw):hover:not(:disabled) {
+  color: #F6D987 !important;
+  background: rgba(231,182,75,.14) !important;
+  border-color: #E7B64B !important;
+}
+.page-header > button:has(svg.lucide-rotate-ccw):disabled {
+  color: #A88A4C !important;
+  background: #11100D !important;
+  border-color: #51452D !important;
+  opacity: .72;
+}
