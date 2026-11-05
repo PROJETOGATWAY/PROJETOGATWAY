@@ -41,7 +41,7 @@ export function usePlatformSettings(){
     void load();
     const channel=supabase.channel("platform-settings-live")
       .on("postgres_changes",{event:"*",schema:"public",table:"platform_settings"},()=>{void load()})
-      .subscribe((status)=>{if(status==="SUBSCRIBED")void load()});
+      .subscribe();
     const onVisible=()=>{if(document.visibilityState==="visible")void load()};
     window.addEventListener("visibilitychange",onVisible);
     return()=>{mounted=false;window.removeEventListener("visibilitychange",onVisible);void supabase.removeChannel(channel)};
@@ -87,7 +87,7 @@ export function useSellerDashboard(periodDays?:number){
     const channel=supabase.channel("seller-financial-live")
       .on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>{void load()})
       .on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>{void load()})
-      .subscribe((status)=>{if(status==="SUBSCRIBED")void load()});
+      .subscribe();
     return()=>{mounted=false;void supabase.removeChannel(channel)};
   },[periodDays]);
   return{data,loading,error};
@@ -110,7 +110,7 @@ export function useSellerLedger(){
         ...(ledger||[]).map(l=>({id:l.id,kind:l.withdrawal_id?"withdrawal" as const:(l.entry_type==="partner_credit"||l.entry_type==="partner_reversal"?"partner" as const:"payment" as const),status:l.withdrawal_id?(withdrawalMap.get(l.withdrawal_id)?.status||l.entry_type):l.entry_type,amount_eur:Number(l.amount_eur||0),created_at:l.created_at,reference:l.payment_id?(paymentMap.get(l.payment_id)?.reference||l.payment_id.slice(0,8)):null,payment_id:l.payment_id||null,entry_type:l.entry_type||null})),
         ...(payments||[]).filter(p=>p.status!=="approved"&&p.status!=="estornado").map(p=>({id:p.id,kind:"payment" as const,status:p.status,amount_eur:0,created_at:p.created_at,reference:p.reference||null,payment_id:p.id,entry_type:null}))
       ].sort((a,b)=>new Date(b.created_at).getTime()-new Date(a.created_at).getTime()).slice(0,30);setData(entries);setLoading(false);
-    };void load();const channel=supabase.channel("seller-ledger-live").on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>void load()).on("postgres_changes",{event:"*",schema:"public",table:"payment_financial_ledger"},()=>void load()).on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>void load()).subscribe((status)=>{if(status==="SUBSCRIBED")void load()});return()=>{mounted=false;void supabase.removeChannel(channel)};
+    };void load();const channel=supabase.channel("seller-ledger-live").on("postgres_changes",{event:"*",schema:"public",table:"payment_records"},()=>void load()).on("postgres_changes",{event:"*",schema:"public",table:"payment_financial_ledger"},()=>void load()).on("postgres_changes",{event:"*",schema:"public",table:"withdrawals"},()=>void load()).subscribe();return()=>{mounted=false;void supabase.removeChannel(channel)};
   },[]);return{data,loading};
 }
 
