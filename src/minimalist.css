@@ -1,0 +1,267 @@
+/* JaguaPay — refinamento visual minimalista (somente CSS).
+   Não altera componentes, estados, eventos, rotas ou regras de negócio. */
+:root {
+  --jp-bg: #080A0C;
+  --jp-surface: #101216;
+  --jp-surface-2: #181C22;
+  --jp-border: #29313B;
+  --jp-text: #F2F5F7;
+  --jp-muted: #9AA6B2;
+  --jp-gold: #00AEEF;
+  --jp-gold-strong: #28BDF2;
+  --background: var(--jp-bg);
+  --foreground: var(--jp-text);
+  --card: var(--jp-surface);
+  --card-foreground: var(--jp-text);
+  --popover: var(--jp-surface);
+  --popover-foreground: var(--jp-text);
+  --primary: var(--jp-gold);
+  --primary-foreground: #061116;
+  --secondary: var(--jp-surface-2);
+  --secondary-foreground: var(--jp-text);
+  --muted: var(--jp-surface-2);
+  --muted-foreground: var(--jp-muted);
+  --accent: var(--jp-surface-2);
+  --accent-foreground: var(--jp-text);
+  --border: var(--jp-border);
+  --input: var(--jp-border);
+  --ring: var(--jp-gold);
+  --sidebar: #0C0E11;
+  --sidebar-foreground: var(--jp-text);
+  --sidebar-primary: var(--jp-gold);
+  --sidebar-primary-foreground: #061116;
+  --sidebar-accent: var(--jp-surface-2);
+  --sidebar-accent-foreground: var(--jp-text);
+  --sidebar-border: var(--jp-border);
+  --sidebar-ring: var(--jp-gold);
+}
+html, body { background: var(--jp-bg); color: var(--jp-text); }
+body { letter-spacing: 0; }
+h1, h2, h3, h4 { letter-spacing: -0.025em; }
+
+/* Navegação mais discreta e compacta. */
+.jaguar-sidebar {
+  width: 244px;
+  padding: 22px 14px;
+  gap: 20px;
+  background: #0C0E11;
+  border-right: 1px solid var(--jp-border);
+}
+.brand-block { gap: 10px; padding-inline: 6px; }
+.brand-name { font-size: 16px; font-weight: 650; letter-spacing: -.015em; }
+.sidebar-status, .sidebar-support {
+  background: transparent;
+  border-color: var(--jp-border);
+  border-radius: 10px;
+}
+.sidebar-status { padding: 12px 14px; }
+.sidebar-nav { gap: 3px; }
+.nav-label { color: var(--jp-muted); font-size: 10px; letter-spacing: .08em; }
+.nav-item {
+  min-height: 40px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  gap: 10px;
+  font-size: 13px;
+}
+.nav-item.active {
+  color: var(--jp-gold);
+  background: rgba(0,174,239,.10);
+  box-shadow: inset 2px 0 0 var(--jp-gold);
+}
+
+/* Barra superior e área de trabalho com menos peso visual. */
+.topbar {
+  min-height: 62px;
+  padding: 12px 28px;
+  background: #080A0C;
+  border-bottom-color: var(--jp-border);
+  backdrop-filter: none;
+}
+.content-area {
+  max-width: 1320px;
+  padding: 28px 32px 56px;
+  gap: 24px;
+}
+.page-header { margin-bottom: 8px; gap: 12px; }
+.page-header h1 { font-size: clamp(22px, 2.5vw, 28px); font-weight: 650; }
+.page-header p { color: var(--jp-muted); font-size: 13px; }
+
+/* Cards, painéis e indicadores: superfícies planas, linhas finas e raios sutis. */
+.panel, .stat-card, .summary-card, .modal-card, .notification-popover {
+  background: var(--jp-surface);
+  border: 1px solid var(--jp-border);
+  border-radius: 12px;
+  box-shadow: none;
+}
+.panel { padding: 22px; }
+.panel h2 { font-size: 16px; font-weight: 650; }
+.panel-head { margin-bottom: 16px; }
+.stat-card, .summary-card {
+  min-height: 104px;
+  padding: 18px;
+  background: #101216;
+  border-radius: 11px;
+}
+.stat-card > span, .summary-card > span {
+  color: var(--jp-muted);
+  font-size: 11px;
+  letter-spacing: .01em;
+  text-transform: none;
+}
+.stat-card strong, .summary-card strong {
+  margin-top: 14px;
+  font-size: clamp(17px, 1.8vw, 21px);
+  font-weight: 650;
+}
+.overview-page, .counter-dashboard { gap: 22px; }
+.overview-page > .stats-grid, .counter-dashboard > .stats-grid { gap: 12px; }
+.overview-page > .stats-grid .stat-card:first-child,
+.counter-dashboard > .stats-grid .stat-card:first-child {
+  min-height: 126px;
+  padding: 22px;
+  background: #101216;
+}
+.admin-summary-grid { gap: 12px; }
+.activity-row, .payment-row, .admin-payment-row,
+.withdrawal-history-row, .configured-method {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-color: var(--jp-border);
+}
+.activity-row:hover, .admin-payment-row:hover { background: rgba(255,255,255,.018); }
+
+/* Formulários: campos uniformes e foco nítido, sem brilhos. */
+.field-label { gap: 7px; margin: 10px 0 15px; font-size: 12px; }
+.field-label input, .field-label select, .field-label textarea,
+.field-select, .admin-search, .admin-invite input,
+.admin-invite select, .period-filter select,
+.auth-form input:not([type=checkbox]), .auth-form select, .auth-form textarea {
+  min-height: 42px;
+  color: var(--jp-text);
+  background: #0C0E11;
+  border: 1px solid var(--jp-border);
+  border-radius: 8px;
+  box-shadow: none;
+}
+.field-label input:focus, .field-label select:focus, .field-label textarea:focus,
+.field-select:focus, .auth-form input:focus, .auth-form select:focus,
+.auth-form textarea:focus {
+  border-color: var(--jp-gold);
+  box-shadow: 0 0 0 2px rgba(0,174,239,.10);
+  outline: none;
+}
+.primary-button, .btn-primary {
+  min-height: 40px;
+  padding: 10px 15px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--jp-gold);
+  color: #061116;
+  box-shadow: none;
+  font-size: 13px;
+  font-weight: 650;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.primary-button:hover:not(:disabled), .btn-primary:hover {
+  background: var(--jp-gold-strong);
+  filter: none;
+  transform: none;
+}
+.secondary-button, .btn-secondary {
+  min-height: 40px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--jp-border);
+  color: var(--jp-text);
+  font-size: 13px;
+}
+.icon-button {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  border-radius: 8px;
+  background: var(--jp-surface-2);
+  border-color: var(--jp-border);
+}
+button:focus-visible, a:focus-visible, select:focus-visible,
+input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--jp-gold);
+  outline-offset: 2px;
+}
+
+/* MB WAY/IBAN, tabelas, filtros e caixas informativas preservam conteúdo e ações. */
+.method-card, .fee-preview, .withdraw-summary, .payment-info,
+.balance-highlight, .admin-invite, .settings-security,
+.upload-box, .detail-grid span, .detail-text, .note-box, .receipt-match {
+  background: #0C0E11;
+  border-color: var(--jp-border);
+  border-radius: 10px;
+}
+.method-card { padding: 16px; }
+.method-icon { background: rgba(0,174,239,.10); color: var(--jp-gold); }
+.primary-pill { color: var(--jp-gold); border-color: rgba(0,174,239,.32); }
+.section-kicker, .eyebrow, .sidebar-status span, .topbar-system span { color: var(--jp-muted); }
+.status-badge, .status-pill { border-radius: 7px; }
+.status-ok, .status-success, .sync-ok { color: var(--jp-success); }
+.table, table, th, td { border-color: var(--jp-border); }
+
+/* Login alinhado ao restante do produto, mantendo estrutura, marca e campos. */
+.auth-page {
+  background: #080A0C;
+  color: var(--jp-text);
+}
+.auth-page::before, .auth-page::after { display: none; }
+.auth-hero::before { display: none; }
+.auth-hero-jaguar { filter: none; }
+.auth-wordmark { text-shadow: none; }
+.auth-wordmark strong { color: var(--jp-gold); }
+.auth-hero-copy, .auth-footer { color: var(--jp-muted); }
+.auth-hero-line { background: var(--jp-border); }
+.auth-stage .auth-card {
+  background: #101216;
+  border: 1px solid var(--jp-border);
+  border-radius: 14px;
+  box-shadow: none;
+}
+.auth-stage .auth-card::before, .auth-stage .auth-card::after { display: none; }
+.auth-stage .auth-card h1 { color: var(--jp-text); }
+.auth-stage .auth-card .auth-subtitle,
+.auth-stage .auth-form label { color: var(--jp-muted); }
+.auth-stage .auth-form input:not([type=checkbox]),
+.auth-stage .auth-form select, .auth-stage .auth-form textarea {
+  min-height: 46px;
+  background: #0C0E11;
+  border: 1px solid var(--jp-border);
+  border-radius: 8px;
+  color: var(--jp-text);
+}
+.auth-stage .auth-form .primary-button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--jp-gold);
+  color: #061116;
+  box-shadow: none;
+}
+.auth-stage .auth-form .primary-button:hover:not(:disabled) {
+  background: var(--jp-gold-strong);
+  transform: none;
+  filter: none;
+}
+.auth-stage .auth-links a { color: var(--jp-gold); }
+
+@media (max-width: 900px) {
+  .jaguar-sidebar { width: 268px; }
+  .topbar { padding: 11px 16px; }
+  .content-area { padding: 22px 20px 42px; gap: 20px; }
+}
+@media (max-width: 620px) {
+  .content-area { padding: 18px 14px 32px; gap: 18px; }
+  .panel { padding: 17px; }
+  .stat-card, .summary-card { padding: 15px; min-height: 96px; }
+  .overview-page, .counter-dashboard { gap: 18px; }
+  .auth-stage .auth-card { padding: 22px 18px; }
+}
