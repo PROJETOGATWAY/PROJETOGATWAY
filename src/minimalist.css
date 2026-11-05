@@ -294,3 +294,189 @@ input:focus-visible, textarea:focus-visible {
   border-color: #51452D !important;
   opacity: .72;
 }
+
+
+/* Organização das áreas de gestão: alinhamento consistente e sem colisões. */
+.admin-management-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+.admin-management-page > .panel {
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+}
+.admin-management-page > .panel > h2 { margin: 0 0 8px; }
+.admin-management-page .admin-invite {
+  display: grid;
+  grid-template-columns: 22px minmax(150px, 1fr) minmax(190px, 1.3fr) minmax(130px, .7fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+.admin-management-page .activity-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--jp-border);
+}
+.admin-management-page .activity-row:last-child { border-bottom: 0; }
+.admin-management-page .activity-row > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+}
+.admin-management-page .activity-row > div:first-child span,
+.admin-management-page .activity-row > div:first-child small {
+  overflow-wrap: anywhere;
+}
+.admin-management-page .activity-row > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.admin-management-page .partner-management {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.admin-management-page .partner-management-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.admin-management-page .partner-management-title p { max-width: 760px; line-height: 1.6; }
+.admin-management-page .partner-search { margin: 2px 0 4px; }
+.admin-management-page .partner-candidates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: #0C0E11;
+  border: 1px solid var(--jp-border);
+  border-radius: 10px;
+}
+.admin-management-page .partner-management-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "identity status" "metrics metrics" "actions actions" "history history";
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--jp-border);
+}
+.admin-management-page .partner-management-row:last-of-type { border-bottom: 0; }
+.admin-management-page .partner-management-main {
+  grid-area: identity;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+}
+.admin-management-page .partner-management-main > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.admin-management-page .partner-management-main > div span { overflow-wrap: anywhere; }
+.admin-management-page .partner-management-main > .status-badge { grid-area: status; }
+.admin-management-page .partner-management-metrics {
+  grid-area: metrics;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px 14px;
+  background: #0C0E11;
+  border: 1px solid var(--jp-border);
+  border-radius: 9px;
+}
+.admin-management-page .partner-management-metrics > span {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--jp-muted);
+  font-size: 12px;
+}
+.admin-management-page .partner-management-metrics b {
+  color: var(--jp-text);
+  font-size: 14px;
+  font-weight: 650;
+}
+.admin-management-page .partner-management-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: end;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.admin-management-page .partner-management-actions label {
+  display: grid;
+  grid-template-columns: auto 90px auto;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  color: var(--jp-muted);
+  font-size: 12px;
+}
+.admin-management-page .partner-management-actions input {
+  width: 90px;
+  min-height: 38px;
+  padding: 0 9px;
+  color: var(--jp-text);
+  background: #0C0E11;
+  border: 1px solid var(--jp-border);
+  border-radius: 8px;
+}
+.admin-management-page .partner-history {
+  grid-area: history;
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #0C0E11;
+  border: 1px solid var(--jp-border);
+  border-radius: 9px;
+}
+.admin-management-page > .panel + .panel { margin-top: 0; }
+@media (max-width: 760px) {
+  .admin-management-page > .panel { padding: 17px; }
+  .admin-management-page .admin-invite {
+    grid-template-columns: 1fr;
+  }
+  .admin-management-page .admin-invite > svg { display: none; }
+  .admin-management-page .activity-row {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+  }
+  .admin-management-page .activity-row > div:last-child {
+    justify-content: flex-start;
+  }
+  .admin-management-page .partner-management-row {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "identity" "status" "metrics" "actions" "history";
+  }
+  .admin-management-page .partner-management-metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-management-page .partner-management-actions {
+    align-items: stretch;
+  }
+  .admin-management-page .partner-management-actions label {
+    width: 100%;
+    margin: 0 0 4px;
+  }
+  .admin-management-page .partner-management-actions button {
+    flex: 1 1 145px;
+  }
+}
