@@ -124,7 +124,7 @@ export function copyText(text:string){
 }
 
 export function whatsappInstructions(settings:PlatformSettings){
-  const lines=["Dados para pagamento — JaguaPay"];
+  const lines=["Dados para pagamento — AZONPAY"];
   if(settings.mbway_phone)lines.push(`MB WAY: ${settings.mbway_phone}`);
   if(settings.central_iban)lines.push(`IBAN: ${settings.central_iban}`);
   return lines.join("\n");

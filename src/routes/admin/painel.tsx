@@ -2,9 +2,9 @@ import{createFileRoute,Link}from"@tanstack/react-router";import{useEffect,useSta
 
 export const Route=createFileRoute("/admin/painel")({
   head:()=>({meta:[
-    {title:"Painel do Contador — JaguaPay"},
+    {title:"Painel do Contador — AZONPAY"},
     {name:"description",content:"Resumo operacional e de comissões do contador na JaguaPay."},
-    {property:"og:title",content:"Painel do Contador — JaguaPay"},
+    {property:"og:title",content:"Painel do Contador — AZONPAY"},
     {property:"og:description",content:"Resumo operacional e de comissões do contador na JaguaPay."},
     {property:"og:type",content:"website"},
     {name:"twitter:card",content:"summary"},
@@ -43,12 +43,12 @@ function CounterDashboardPage(){
   if(loading)return <div className="loading-screen"><div className="spinner"/><span>Carregando painel…</span></div>;
 
   return <div className="counter-dashboard">
-    <PageHeader eyebrow="CONTADOR" title="Painel do Contador" description="Resumo do que entrou na JaguaPay e da sua comissão."/>
+    <PageHeader eyebrow="CONTADOR" title="Painel do Contador" description="Resumo do que entrou na AZONPAY e da sua comissão."/>
     {error&&<div className="alert error">{error}</div>}
 
     <div className="stats-grid">
-      <div className="stat-card"><span>ENTROU NA JAGUAPAY (BRUTO APROVADO)</span><div><TrendingUp size={18}/></div><strong>{formatEur(approvedGross)}</strong></div>
-      <div className="stat-card"><span>TAXAS JAGUAPAY ({overview?overview.platform_fee_percent:0}%)</span><div><Euro size={18}/></div><strong>{formatEur(overview?.jaguapay_fees_eur||0)}</strong></div>
+      <div className="stat-card"><span>ENTROU NA AZONPAY (BRUTO APROVADO)</span><div><TrendingUp size={18}/></div><strong>{formatEur(approvedGross)}</strong></div>
+      <div className="stat-card"><span>TAXAS AZONPAY ({overview?overview.platform_fee_percent:0}%)</span><div><Euro size={18}/></div><strong>{formatEur(overview?.jaguapay_fees_eur||0)}</strong></div>
       <div className="stat-card counter-overview-card"><span>SUA PORCENTAGEM</span><div><BadgePercent size={18}/></div><strong>{overview?.percent||0}%</strong><small>sobre o valor bruto de cada venda aprovada</small></div>
       <div className="stat-card counter-overview-card"><span>VOCÊ JÁ ACUMULOU</span><div><Wallet size={18}/></div><strong>{formatEur(overview?.total_accrued_eur||0)}</strong><small>comissões de vendas aprovadas</small></div>
     </div>
@@ -67,7 +67,7 @@ function CounterDashboardPage(){
     <div className="panel">
       <div className="panel-head"><div><h2>Últimas vendas aprovadas</h2><p>Sua comissão é calculada sobre essas vendas.</p></div></div>
       {recent.length===0?<p className="muted">Nenhuma venda aprovada ainda.</p>:
-      <div className="table-wrap"><table className="data-table"><thead><tr><th>Código</th><th>Valor bruto</th><th>Taxa JaguaPay</th><th>Aprovado em</th></tr></thead><tbody>
+      <div className="table-wrap"><table className="data-table"><thead><tr><th>Código</th><th>Valor bruto</th><th>Taxa AZONPAY</th><th>Aprovado em</th></tr></thead><tbody>
         {recent.map(p=><tr key={p.id}><td>{p.payment_code}</td><td>{formatEur(p.gross_amount_eur)}</td><td>{formatEur(p.fee_amount_eur)}</td><td>{p.approved_at?new Date(p.approved_at).toLocaleString("pt-PT"):"—"}</td></tr>)}
       </tbody></table></div>}
     </div>

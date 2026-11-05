@@ -19,7 +19,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
   return <div className="jaguar-app">
     <aside className={"jaguar-sidebar " + (open ? "is-open" : "")}>
-      <div className="brand-block"><img className="brand-logo brand-logo-jaguar" src={brandLogo.url} alt="Logo ARON PAY" width={40} height={40}/><div className="brand-name">ARON PAY</div><button className="icon-button mobile-only" type="button" aria-label="Fechar menu" onClick={() => setOpen(false)}><X size={18} /></button></div>
+      <div className="brand-block"><img className="brand-logo brand-logo-jaguar" src={brandLogo.url} alt="Logo AZONPAY" width={40} height={40}/><div className="brand-name">AZONPAY</div><button className="icon-button mobile-only" type="button" aria-label="Fechar menu" onClick={() => setOpen(false)}><X size={18} /></button></div>
       <div className="sidebar-status"><span>ÁREA ADMINISTRATIVA</span><strong>{adminLevelLabel(profile?.admin_level || "standard")}</strong></div>
       <nav className="sidebar-nav" aria-label="Administração"><div className="nav-label">OPERAÇÃO</div>
         {visibleItems.map(([to, label, Icon]) => <Link key={to} to={to} onClick={() => setOpen(false)} className={"nav-item " + ((to === "/admin" ? location.pathname === "/admin" : location.pathname.startsWith(to)) ? "active" : "")}><Icon size={18} /><span>{label}</span></Link>)}
@@ -27,7 +27,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
     </aside>
     {open && <button className="sidebar-overlay mobile-only" type="button" aria-label="Fechar menu" onClick={() => setOpen(false)} />}
     <main className="jaguar-main">
-      <header className="topbar"><button className="icon-button mobile-only" type="button" aria-label="Abrir menu" onClick={() => setOpen(true)}><Menu size={19} /></button><div className="topbar-system"><span>AMBIENTE</span><strong>ARON PAY ADMIN</strong></div><div className="topbar-user"><NotificationsBell /><strong>{profile?.full_name || "Administrador"} · {adminLevelLabel(profile?.admin_level || "standard")}</strong></div></header>
+      <header className="topbar"><button className="icon-button mobile-only" type="button" aria-label="Abrir menu" onClick={() => setOpen(true)}><Menu size={19} /></button><div className="topbar-system"><span>AMBIENTE</span><strong>AZONPAY ADMIN</strong></div><div className="topbar-user"><NotificationsBell /><strong>{profile?.full_name || "Administrador"} · {adminLevelLabel(profile?.admin_level || "standard")}</strong></div></header>
       <div className="content-area">{children}</div>
     </main>
   </div>;
